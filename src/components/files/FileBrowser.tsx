@@ -830,36 +830,9 @@ export function FileBrowser({
           folders.length === 0 &&
           searchResults === null ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
-              <svg
-                width="64"
-                height="64"
-                viewBox="0 0 32 32"
-                fill="none"
-                className="mb-4 text-fg-tertiary"
-              >
-                <rect
-                  x="4"
-                  y="8"
-                  width="24"
-                  height="20"
-                  rx="4"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-                <path
-                  d="M16 20V6"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M11 10l5-5 5 5"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <div className="mb-4 opacity-40">
+                <VaultLogo size={64} href={undefined} showText={false} />
+              </div>
               <p className="text-lg font-medium text-fg-secondary">
                 No files yet
               </p>

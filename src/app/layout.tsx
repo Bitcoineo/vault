@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><polygon points='16,2 28,12 24,30 8,30 4,12' fill='%233B82F6' stroke='%232563EB' stroke-width='1.5'/><polyline points='4,12 16,8 28,12' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.5'/><line x1='16' y1='8' x2='8' y2='30' stroke='%23ffffff' stroke-width='0.8' opacity='0.3'/><line x1='16' y1='8' x2='24' y2='30' stroke='%23ffffff' stroke-width='0.8' opacity='0.3'/></svg>",
+        url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M5,3 Q5,1 7,1 L25,1 Q27,1 27,3 L27,15 C27,22 22,27 16,30 C10,27 5,22 5,15 Z M16,9 L10,18 L13,18 L16,13 L19,18 L22,18 Z' fill='%233B82F6' fill-rule='evenodd'/></svg>",
         type: "image/svg+xml",
       },
     ],

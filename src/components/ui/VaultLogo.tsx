@@ -19,44 +19,13 @@ export function VaultLogo({
         width={size}
         height={size}
         viewBox="0 0 32 32"
-        fill="none"
         className="text-accent"
       >
-        <defs>
-          <linearGradient id="gem-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="currentColor" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="currentColor" stopOpacity="0.5" />
-          </linearGradient>
-        </defs>
-        {/* Diamond outer shape */}
-        <polygon
-          points="16,2 28,12 24,30 8,30 4,12"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinejoin="round"
-          fill="none"
-        />
-        {/* Crown facet line */}
-        <polyline
-          points="4,12 16,8 28,12"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-          fill="none"
-        />
-        {/* Inner facet lines */}
-        <line x1="16" y1="8" x2="8" y2="30" stroke="currentColor" strokeWidth="1.2" />
-        <line x1="16" y1="8" x2="24" y2="30" stroke="currentColor" strokeWidth="1.2" />
-        {/* Top facet fill for depth */}
-        <polygon
-          points="4,12 16,8 16,2"
-          fill="url(#gem-grad)"
-          opacity="0.3"
-        />
-        <polygon
-          points="28,12 16,8 16,2"
-          fill="url(#gem-grad)"
-          opacity="0.15"
+        {/* Shield with upward arrow cutout — fill-rule evenodd creates negative space */}
+        <path
+          d="M5,3 Q5,1 7,1 L25,1 Q27,1 27,3 L27,15 C27,22 22,27 16,30 C10,27 5,22 5,15 Z M16,9 L10,18 L13,18 L16,13 L19,18 L22,18 Z"
+          fill="currentColor"
+          fillRule="evenodd"
         />
       </svg>
       {showText && <span className={textClass}>Vault</span>}
