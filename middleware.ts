@@ -11,9 +11,14 @@ export default auth((req) => {
   const isAuthRoute = pathname.startsWith("/auth");
   const isApiRoute = pathname.startsWith("/api/");
   const isPublicRoute = pathname === "/";
+  const isShareRoute = pathname.startsWith("/share/");
+  const isShareApiRoute = pathname.startsWith("/api/share/");
 
   // Allow auth API routes (NextAuth needs these)
   if (isApiAuthRoute) return;
+
+  // Share routes are public (no auth required)
+  if (isShareRoute || isShareApiRoute) return;
 
   // Landing page is public
   if (isPublicRoute) return;

@@ -1,0 +1,135 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+
+function formatBytes(bytes: number): string {
+  if (bytes === 0) return "0 B";
+  const units = ["B", "KB", "MB", "GB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  return `${(bytes / Math.pow(1024, i)).toFixed(i > 1 ? 1 : 0)} ${units[i]}`;
+}
+
+export default function SharePage() {
+  const params = useParams<{ token: string }>()!;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [file, setFile] = useState<{
+    name: string;
+    size: number;
+    mimeType: string;
+  } | null>(null);
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/share/${params.token}`)
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.error) {
+          setError(res.error);
+        } else if (res.data) {
+          setFile(res.data.file);
+          setDownloadUrl(res.data.downloadUrl);
+        }
+      })
+      .catch(() => setError("Failed to load shared file"))
+      .finally(() => setLoading(false));
+  }, [params.token]);
+
+  const handleDownload = () => {
+    if (!downloadUrl || !file) return;
+    const a = document.createElement("a");
+    a.href = downloadUrl;
+    a.download = file.name;
+    a.target = "_blank";
+    a.click();
+  };
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-bg-primary p-4">
+      <div className="w-full max-w-md rounded-xl border border-border bg-bg-primary p-8 text-center shadow-lg">
+        {/* Logo */}
+        <div className="mb-6 flex items-center justify-center gap-2">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            className="text-accent"
+          >
+            <path
+              d="M12 2L3 7v10l9 5 9-5V7l-9-5z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinejoin="round"
+            />
+            <path d="M12 22V12" stroke="currentColor" strokeWidth="2" />
+            <path d="M3 7l9 5 9-5" stroke="currentColor" strokeWidth="2" />
+          </svg>
+          <span className="text-lg font-bold text-fg-primary">Vault</span>
+        </div>
+
+        {loading ? (
+          <div className="py-8">
+            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+            <p className="mt-4 text-sm text-fg-tertiary">Loading...</p>
+          </div>
+        ) : error ? (
+          <div className="py-8">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="mx-auto mb-4 text-danger"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="15" y1="9" x2="9" y2="15" />
+              <line x1="9" y1="9" x2="15" y2="15" />
+            </svg>
+            <p className="text-lg font-medium text-fg-primary">{error}</p>
+            <p className="mt-2 text-sm text-fg-tertiary">
+              {error === "This link has expired"
+                ? "Ask the file owner for a new link."
+                : "This shared link is not valid."}
+            </p>
+          </div>
+        ) : file ? (
+          <div className="py-4">
+            {/* File icon */}
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-bg-secondary">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="text-fg-secondary"
+              >
+                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                <polyline points="13 2 13 9 20 9" />
+              </svg>
+            </div>
+
+            <h2 className="mb-1 text-lg font-medium text-fg-primary">
+              {file.name}
+            </h2>
+            <p className="mb-6 text-sm text-fg-tertiary">
+              {file.mimeType} &middot; {formatBytes(file.size)}
+            </p>
+
+            <button
+              onClick={handleDownload}
+              className="w-full rounded-lg bg-accent px-6 py-3 text-sm font-medium text-accent-fg transition-all hover:bg-accent-hover"
+            >
+              Download
+            </button>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}

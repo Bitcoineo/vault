@@ -20,6 +20,7 @@ interface FilePreviewProps {
   onClose: () => void;
   onDelete: (id: string) => void;
   onRename: (id: string, name: string) => void;
+  onEdit?: (id: string) => void;
 }
 
 function formatBytes(bytes: number): string {
@@ -29,7 +30,7 @@ function formatBytes(bytes: number): string {
   return `${(bytes / Math.pow(1024, i)).toFixed(i > 1 ? 1 : 0)} ${units[i]}`;
 }
 
-export function FilePreview({ file, onClose, onDelete, onRename }: FilePreviewProps) {
+export function FilePreview({ file, onClose, onDelete, onRename, onEdit }: FilePreviewProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);
@@ -204,6 +205,14 @@ export function FilePreview({ file, onClose, onDelete, onRename }: FilePreviewPr
         >
           {downloading ? "..." : "Download"}
         </button>
+        {isImage && onEdit && (
+          <button
+            onClick={() => onEdit(file.id)}
+            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-fg-primary transition-all hover:bg-bg-secondary"
+          >
+            Edit
+          </button>
+        )}
         <button
           onClick={() => onDelete(file.id)}
           className="rounded-lg border border-danger/30 px-4 py-2 text-sm font-medium text-danger transition-all hover:bg-danger/10"

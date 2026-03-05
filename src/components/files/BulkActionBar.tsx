@@ -7,6 +7,7 @@ interface BulkActionBarProps {
   folders: { id: string; name: string }[];
   onDelete: () => void;
   onMove: (folderId: string | null) => void;
+  onZip?: () => void;
   onClear: () => void;
 }
 
@@ -15,6 +16,7 @@ export function BulkActionBar({
   folders,
   onDelete,
   onMove,
+  onZip,
   onClear,
 }: BulkActionBarProps) {
   const [showMoveMenu, setShowMoveMenu] = useState(false);
@@ -64,6 +66,16 @@ export function BulkActionBar({
             </div>
           )}
         </div>
+      )}
+
+      {/* Zip */}
+      {onZip && selectedCount > 1 && (
+        <button
+          onClick={onZip}
+          className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-primary transition-colors hover:bg-bg-secondary"
+        >
+          Zip
+        </button>
       )}
 
       {/* Delete */}

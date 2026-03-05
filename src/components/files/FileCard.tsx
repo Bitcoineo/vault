@@ -22,6 +22,8 @@ interface FileCardProps {
   onClick: (e: React.MouseEvent) => void;
   onDelete: (id: string) => void;
   onRename: (id: string, name: string) => void;
+  onShare?: (id: string) => void;
+  onCompress?: (id: string) => void;
   onDragStart?: (e: React.DragEvent, fileId: string) => void;
 }
 
@@ -47,6 +49,8 @@ export function FileCard({
   onClick,
   onDelete,
   onRename,
+  onShare,
+  onCompress,
   onDragStart,
 }: FileCardProps) {
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
@@ -146,6 +150,30 @@ export function FileCard({
           >
             Rename
           </button>
+          {onShare && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMenu(false);
+                onShare(file.id);
+              }}
+              className="w-full px-3 py-1.5 text-left text-sm text-fg-primary hover:bg-bg-secondary"
+            >
+              Share
+            </button>
+          )}
+          {onCompress && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMenu(false);
+                onCompress(file.id);
+              }}
+              className="w-full px-3 py-1.5 text-left text-sm text-fg-primary hover:bg-bg-secondary"
+            >
+              Compress
+            </button>
+          )}
           <button
             onClick={(e) => {
               e.stopPropagation();

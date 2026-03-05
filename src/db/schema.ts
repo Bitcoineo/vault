@@ -133,3 +133,27 @@ export const files = sqliteTable(
     index("file_userId_status_idx").on(file.userId, file.status),
   ]
 );
+
+export const sharedLinks = sqliteTable(
+  "shared_link",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => nanoid()),
+    fileId: text("fileId")
+      .notNull()
+      .references(() => files.id, { onDelete: "cascade" }),
+    token: text("token").notNull().unique(),
+    expiresAt: text("expiresAt").notNull(),
+    createdBy: text("createdBy")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: integer("createdAt", { mode: "timestamp_ms" })
+      .notNull()
+      .$defaultFn(() => new Date()),
+  },
+  (link) => [
+    index("shared_link_token_idx").on(link.token),
+    index("shared_link_fileId_idx").on(link.fileId),
+  ]
+);

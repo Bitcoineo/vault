@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { FolderCard } from "./FolderCard";
 import { FileCard } from "./FileCard";
@@ -9,6 +10,8 @@ import { FilePreview } from "./FilePreview";
 import { UploadProgress, type UploadItem } from "./UploadProgress";
 import { StorageBar } from "./StorageBar";
 import { BulkActionBar } from "./BulkActionBar";
+import { ShareModal } from "./ShareModal";
+import { ImageEditor } from "./ImageEditor";
 import { uploadFile } from "@/lib/upload";
 import { signOut } from "next-auth/react";
 
@@ -40,6 +43,13 @@ interface FileBrowserProps {
   avatarColor: string | null;
 }
 
+function formatBytes(bytes: number): string {
+  if (bytes === 0) return "0 B";
+  const units = ["B", "KB", "MB", "GB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  return `${(bytes / Math.pow(1024, i)).toFixed(i > 1 ? 1 : 0)} ${units[i]}`;
+}
+
 export function FileBrowser({
   initialFiles,
   initialFolders,
@@ -49,6 +59,7 @@ export function FileBrowser({
   userName,
   avatarColor,
 }: FileBrowserProps) {
+  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<FileData[]>(initialFiles);
   const [folders, setFolders] = useState<FolderData[]>(initialFolders);
@@ -59,6 +70,71 @@ export function FileBrowser({
   const [isDragging, setIsDragging] = useState(false);
   const [storageUsed, setStorageUsed] = useState(initialStorageUsed);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [shareFileId, setShareFileId] = useState<string | null>(null);
+  const [editingImage, setEditingImage] = useState<{
+    id: string;
+    name: string;
+    previewUrl: string;
+    width: number | null;
+    height: number | null;
+  } | null>(null);
+  const [, setCompressing] = useState<string | null>(null);
+
+  // Navigation history (back/forward/up)
+  const navHistory = useRef<(string | null)[]>([currentFolderId]);
+  const navIndex = useRef(0);
+  const isNavAction = useRef(false);
+  // Force re-render when nav index changes (refs don't trigger renders)
+  const [, setNavTick] = useState(0);
+
+  // Track folder changes: push to history unless it was a back/forward/up action
+  useEffect(() => {
+    if (isNavAction.current) {
+      isNavAction.current = false;
+      return;
+    }
+    const hist = navHistory.current;
+    const idx = navIndex.current;
+    if (hist[idx] !== currentFolderId) {
+      navHistory.current = hist.slice(0, idx + 1);
+      navHistory.current.push(currentFolderId);
+      navIndex.current = navHistory.current.length - 1;
+      setNavTick((t) => t + 1);
+    }
+  }, [currentFolderId]);
+
+  const canGoBack = navIndex.current > 0;
+  const canGoForward = navIndex.current < navHistory.current.length - 1;
+  const parentFolderId =
+    folderPath.length > 1 ? folderPath[folderPath.length - 2].id : null;
+  const canGoUp = currentFolderId !== null;
+
+  const navigateTo = useCallback(
+    (folderId: string | null) => {
+      isNavAction.current = true;
+      router.push(folderId ? `/files?folderId=${folderId}` : "/files");
+    },
+    [router]
+  );
+
+  const goBack = useCallback(() => {
+    if (navIndex.current <= 0) return;
+    navIndex.current -= 1;
+    setNavTick((t) => t + 1);
+    navigateTo(navHistory.current[navIndex.current]);
+  }, [navigateTo]);
+
+  const goForward = useCallback(() => {
+    if (navIndex.current >= navHistory.current.length - 1) return;
+    navIndex.current += 1;
+    setNavTick((t) => t + 1);
+    navigateTo(navHistory.current[navIndex.current]);
+  }, [navigateTo]);
+
+  const goUp = useCallback(() => {
+    if (currentFolderId === null) return;
+    navigateTo(parentFolderId);
+  }, [currentFolderId, parentFolderId, navigateTo]);
 
   // Sync state when server props change (folder navigation)
   useEffect(() => {
@@ -109,16 +185,37 @@ export function FileBrowser({
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Delete key for bulk delete
+  // Keyboard shortcuts: bulk delete + navigation
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
+      const isInput =
+        e.target instanceof HTMLElement &&
+        (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA");
+
+      // Alt+Arrow navigation
+      if (e.altKey && !isInput) {
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          goBack();
+          return;
+        }
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          goForward();
+          return;
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          goUp();
+          return;
+        }
+      }
+
+      // Bulk delete
       if (
         (e.key === "Delete" || e.key === "Backspace") &&
         selectedFileIds.size > 0 &&
-        !e.target ||
-        (e.target instanceof HTMLElement &&
-          e.target.tagName !== "INPUT" &&
-          e.target.tagName !== "TEXTAREA")
+        !isInput
       ) {
         handleBulkDelete();
       }
@@ -126,7 +223,7 @@ export function FileBrowser({
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedFileIds]);
+  }, [selectedFileIds, goBack, goForward, goUp]);
 
   const refreshData = useCallback(async () => {
     const params = currentFolderId ? `?folderId=${currentFolderId}` : "";
@@ -270,6 +367,67 @@ export function FileBrowser({
     handleMoveFile(fileId, folderId);
   };
 
+  const handleShare = (fileId: string) => {
+    setShareFileId(fileId);
+  };
+
+  const handleEditImage = async (fileId: string) => {
+    const file = files.find((f) => f.id === fileId);
+    if (!file) return;
+    try {
+      const res = await fetch(`/api/files/${fileId}/download`);
+      const { data } = await res.json();
+      if (data?.url) {
+        setEditingImage({
+          id: file.id,
+          name: file.name,
+          previewUrl: data.url,
+          width: file.width,
+          height: file.height,
+        });
+      }
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleCompress = async (fileId: string) => {
+    const file = files.find((f) => f.id === fileId);
+    if (!file) return;
+
+    const isImage = /^image\/(jpeg|png|webp|gif)$/.test(file.mimeType);
+    if (!isImage) return;
+
+    if (
+      !confirm(
+        `Compress "${file.name}"? This will create a WebP copy optimized for size.`
+      )
+    )
+      return;
+
+    setCompressing(fileId);
+    try {
+      const res = await fetch(`/api/files/${fileId}/compress`, {
+        method: "POST",
+      });
+      const result = await res.json();
+      if (result.data) {
+        const savings = Math.round(
+          ((result.data.originalSize - result.data.compressedSize) /
+            result.data.originalSize) *
+            100
+        );
+        alert(
+          `Compressed! Saved ${savings}% (${formatBytes(result.data.originalSize)} → ${formatBytes(result.data.compressedSize)})`
+        );
+        refreshData();
+      }
+    } catch {
+      // ignore
+    }
+    setCompressing(null);
+  };
+
   const handleBulkDelete = async () => {
     if (selectedFileIds.size === 0) return;
     if (
@@ -293,6 +451,27 @@ export function FileBrowser({
     setStorageUsed((prev) => Math.max(0, prev - totalSize));
     if (selectedFile && ids.includes(selectedFile.id)) {
       setSelectedFile(null);
+    }
+  };
+
+  const handleBulkZip = async () => {
+    if (selectedFileIds.size < 2) return;
+    const ids = Array.from(selectedFileIds);
+    if (!confirm(`Create a ZIP archive of ${ids.length} files?`)) return;
+
+    try {
+      const res = await fetch("/api/files/compress-zip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fileIds: ids }),
+      });
+      const result = await res.json();
+      if (result.data) {
+        setSelectedFileIds(new Set());
+        refreshData();
+      }
+    } catch {
+      // ignore
     }
   };
 
@@ -453,7 +632,42 @@ export function FileBrowser({
 
       {/* Action Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-2 sm:px-6">
-        <Breadcrumbs path={folderPath} currentFolderId={currentFolderId} />
+        <div className="flex items-center gap-2">
+          {/* Navigation Arrows */}
+          <div className="flex rounded-lg border border-border">
+            <button
+              onClick={goBack}
+              disabled={!canGoBack}
+              title="Back (Alt+Left)"
+              className="rounded-l-lg p-1.5 text-fg-secondary transition-colors hover:bg-bg-tertiary disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button
+              onClick={goForward}
+              disabled={!canGoForward}
+              title="Forward (Alt+Right)"
+              className="border-l border-border p-1.5 text-fg-secondary transition-colors hover:bg-bg-tertiary disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+            <button
+              onClick={goUp}
+              disabled={!canGoUp}
+              title="Up to parent folder (Alt+Up)"
+              className="rounded-r-lg border-l border-border p-1.5 text-fg-secondary transition-colors hover:bg-bg-tertiary disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="18 15 12 9 6 15" />
+              </svg>
+            </button>
+          </div>
+          <Breadcrumbs path={folderPath} currentFolderId={currentFolderId} />
+        </div>
         <div className="flex items-center gap-2">
           {/* Search */}
           <div className="relative">
@@ -680,6 +894,8 @@ export function FileBrowser({
                   onClick={(e) => handleFileClick(e, file)}
                   onDelete={handleDeleteFile}
                   onRename={handleRenameFile}
+                  onShare={handleShare}
+                  onCompress={handleCompress}
                   onDragStart={handleDragStart}
                 />
               ))}
@@ -707,6 +923,8 @@ export function FileBrowser({
                   onClick={(e) => handleFileClick(e, file)}
                   onDelete={handleDeleteFile}
                   onRename={handleRenameFile}
+                  onShare={handleShare}
+                  onCompress={handleCompress}
                   onDragStart={handleDragStart}
                 />
               ))}
@@ -721,6 +939,7 @@ export function FileBrowser({
             onClose={() => setSelectedFile(null)}
             onDelete={handleDeleteFile}
             onRename={handleRenameFile}
+            onEdit={handleEditImage}
           />
         )}
       </div>
@@ -731,6 +950,7 @@ export function FileBrowser({
         folders={folders}
         onDelete={handleBulkDelete}
         onMove={handleBulkMove}
+        onZip={handleBulkZip}
         onClear={() => setSelectedFileIds(new Set())}
       />
 
@@ -745,6 +965,32 @@ export function FileBrowser({
         <NewFolderModal
           onClose={() => setShowNewFolder(false)}
           onCreate={handleCreateFolder}
+        />
+      )}
+
+      {/* Share Modal */}
+      {shareFileId && (
+        <ShareModal
+          fileId={shareFileId}
+          fileName={
+            files.find((f) => f.id === shareFileId)?.name || "File"
+          }
+          onClose={() => setShareFileId(null)}
+        />
+      )}
+
+      {/* Image Editor */}
+      {editingImage && (
+        <ImageEditor
+          fileId={editingImage.id}
+          fileName={editingImage.name}
+          previewUrl={editingImage.previewUrl}
+          originalWidth={editingImage.width}
+          originalHeight={editingImage.height}
+          onClose={() => setEditingImage(null)}
+          onSaved={() => {
+            refreshData();
+          }}
         />
       )}
     </div>
