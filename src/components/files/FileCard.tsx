@@ -142,7 +142,7 @@ export function FileCard({
         </svg>
       </button>
       {showMenu && (
-        <div className="absolute right-0 top-full z-10 mt-1 w-40 rounded-xl border border-border bg-bg-primary py-1 shadow-lg">
+        <div className="absolute right-0 top-full z-10 mt-1 w-40 max-sm:right-auto max-sm:left-0 rounded-xl border border-border bg-bg-primary py-1 shadow-lg">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -256,12 +256,12 @@ export function FileCard({
 
   return (
     <div
-      className={`group relative cursor-pointer rounded-2xl border border-border bg-bg-primary transition-all hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] ${selectedStyle}`}
+      className={`group relative cursor-pointer rounded-xl border border-border bg-bg-primary transition-all hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] sm:rounded-2xl ${selectedStyle}`}
       onClick={onClick}
       draggable
       onDragStart={(e) => onDragStart?.(e, file.id)}
     >
-      <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-t-2xl bg-bg-secondary">
+      <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-t-xl bg-bg-secondary sm:rounded-t-2xl">
         {thumbnailUrl ? (
           <img
             src={thumbnailUrl}
@@ -272,10 +272,10 @@ export function FileCard({
           <FileIcon mimeType={file.mimeType} size={48} />
         )}
       </div>
-      <div className="p-3.5">
+      <div className="p-2.5 sm:p-3.5">
         <div className="flex items-start justify-between gap-1">
           {nameDisplay || (
-            <p className="truncate text-[15px] font-medium text-fg-primary">
+            <p className="truncate text-xs font-medium text-fg-primary sm:text-[15px]">
               {file.name}
             </p>
           )}

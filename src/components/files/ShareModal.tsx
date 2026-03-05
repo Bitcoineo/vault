@@ -67,11 +67,11 @@ export function ShareModal({ fileId, fileName, onClose }: ShareModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md rounded-2xl border border-border bg-bg-primary shadow-xl"
+        className="w-full max-w-sm rounded-2xl border border-border bg-bg-primary shadow-xl sm:max-w-md"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -102,7 +102,7 @@ export function ShareModal({ fileId, fileName, onClose }: ShareModalProps) {
 
         <div className="p-5">
           {/* Create new link */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <select
               value={expiresIn}
               onChange={(e) =>

@@ -579,7 +579,7 @@ export function FileBrowser({
   return (
     <div className="flex h-screen flex-col bg-bg-secondary animate-page-fade-in">
       {/* Top Bar — white/surface, logo left, breadcrumb center, avatar right */}
-      <header className="flex items-center justify-between border-b border-border bg-bg-primary px-4 py-3 sm:px-6">
+      <header className="flex items-center justify-between border-b border-border bg-bg-primary px-3 py-2.5 sm:px-6 sm:py-3">
         <VaultLogo href="/files" size={28} textClass="text-base font-semibold tracking-tight text-fg-primary" />
 
         <div className="hidden sm:flex">
@@ -616,7 +616,7 @@ export function FileBrowser({
       </header>
 
       {/* Action Bar — below top bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-bg-primary px-4 py-2.5 sm:px-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-bg-primary px-3 py-2.5 sm:px-6">
         <div className="flex items-center gap-2">
           {/* Navigation Arrows */}
           <div className="flex rounded-full border border-border">
@@ -678,7 +678,7 @@ export function FileBrowser({
               placeholder="Search files..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-36 rounded-full border border-border bg-bg-secondary py-1.5 pl-9 pr-3 text-sm text-fg-primary placeholder-fg-tertiary outline-none transition-all focus:w-48 focus:border-accent focus:ring-2 focus:ring-accent/20 sm:w-44 sm:focus:w-60"
+              className="w-28 rounded-full border border-border bg-bg-secondary py-1.5 pl-9 pr-3 text-sm text-fg-primary placeholder-fg-tertiary outline-none transition-all focus:w-40 focus:border-accent focus:ring-2 focus:ring-accent/20 sm:w-44 sm:focus:w-60"
             />
             {searchQuery && (
               <button
@@ -752,14 +752,14 @@ export function FileBrowser({
 
           <button
             onClick={() => setShowNewFolder(true)}
-            className="hidden rounded-full border border-border px-4 py-1.5 text-sm text-fg-primary transition-all hover:bg-bg-secondary hover:shadow-sm sm:block"
+            className="rounded-full border border-border px-3 py-1.5 text-xs text-fg-primary transition-all hover:bg-bg-secondary hover:shadow-sm sm:px-4 sm:text-sm"
           >
             New folder
           </button>
 
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="rounded-full bg-accent px-5 py-1.5 text-sm font-medium text-accent-fg shadow-sm transition-all hover:bg-accent-hover hover:shadow-md"
+            className="rounded-full bg-accent px-3.5 py-1.5 text-xs font-medium text-accent-fg shadow-sm transition-all hover:bg-accent-hover hover:shadow-md sm:px-5 sm:text-sm"
           >
             Upload
           </button>
@@ -856,7 +856,7 @@ export function FileBrowser({
               </button>
             </div>
           ) : viewMode === "grid" ? (
-            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <div className="grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {searchResults === null &&
                 folders.map((folder) => (
                   <FolderCard

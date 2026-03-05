@@ -599,36 +599,36 @@ export function ImageEditor({
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-bg-primary">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border px-6 py-3">
+      <div className="flex items-center justify-between border-b border-border px-3 py-2 sm:px-6 sm:py-3">
         <div className="flex items-center gap-3">
-          <h2 className="text-sm font-medium text-fg-primary">
+          <h2 className="truncate text-sm font-medium text-fg-primary">
             Edit: {fileName}
           </h2>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           <button
             onClick={handleReset}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-fg-tertiary transition-all hover:bg-bg-secondary hover:text-fg-primary"
+            className="rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-fg-tertiary transition-all hover:bg-bg-secondary hover:text-fg-primary sm:px-4 sm:py-2 sm:text-sm"
           >
             Reset
           </button>
           <button
             onClick={() => handleSave("copy")}
             disabled={saving}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-fg-primary transition-all hover:bg-bg-secondary disabled:opacity-50"
+            className="hidden rounded-lg border border-border px-4 py-2 text-sm font-medium text-fg-primary transition-all hover:bg-bg-secondary disabled:opacity-50 sm:block"
           >
             {saving && saveMode === "copy" ? "Saving..." : "Save copy"}
           </button>
           <button
             onClick={() => handleSave("overwrite")}
             disabled={saving}
-            className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-all hover:bg-accent-hover disabled:opacity-50"
+            className="rounded-lg bg-accent px-2.5 py-1.5 text-xs font-medium text-accent-fg transition-all hover:bg-accent-hover disabled:opacity-50 sm:px-4 sm:py-2 sm:text-sm"
           >
             {saving && saveMode === "overwrite" ? "Saving..." : "Replace original"}
           </button>
           <button
             onClick={onClose}
-            className="ml-2 rounded p-1 text-fg-tertiary hover:bg-bg-secondary hover:text-fg-primary"
+            className="ml-1 rounded p-1 text-fg-tertiary hover:bg-bg-secondary hover:text-fg-primary sm:ml-2"
           >
             <svg
               width="20"
@@ -645,9 +645,9 @@ export function ImageEditor({
         </div>
       </div>
 
-      <div className="flex flex-1 overflow-hidden">
-        {/* Tool sidebar */}
-        <div className="flex w-56 flex-col gap-1 border-r border-border p-4">
+      <div className="flex flex-1 flex-col overflow-hidden md:flex-row">
+        {/* Tool sidebar — horizontal scroll on mobile, vertical on desktop */}
+        <div className="flex gap-1 overflow-x-auto border-b border-border p-2 md:w-56 md:flex-col md:overflow-x-visible md:overflow-y-auto md:border-b-0 md:border-r md:p-4">
           {toolBtn(
             "rotate",
             "Rotate",
@@ -800,7 +800,7 @@ export function ImageEditor({
         </div>
 
         {/* Canvas preview */}
-        <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-bg-secondary p-8">
+        <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-bg-secondary p-4 sm:p-8">
           {!imageLoaded && (
             <div className="text-sm text-fg-tertiary">Loading...</div>
           )}

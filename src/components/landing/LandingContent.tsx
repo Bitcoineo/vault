@@ -19,7 +19,7 @@ export function LandingContent() {
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-20 lg:py-0">
           <div className="max-w-2xl">
             {/* Headline */}
-            <h1 className="mb-6 font-[family-name:var(--font-outfit)] text-5xl font-bold tracking-tight text-[#E8ECF1] sm:text-6xl md:text-7xl">
+            <h1 className="mb-6 font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[#E8ECF1] sm:text-5xl md:text-6xl lg:text-7xl">
               All your files.
               <br />
               Refined.
@@ -31,10 +31,10 @@ export function LandingContent() {
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               <Link
                 href="/auth/signup"
-                className="rounded-full bg-[#3B82F6] px-8 py-3.5 font-[family-name:var(--font-dm-sans)] text-[15px] font-medium text-white shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all hover:bg-[#2563EB] hover:shadow-[0_0_30px_rgba(59,130,246,0.45)] hover:scale-[1.02] active:scale-[0.98]"
+                className="rounded-full bg-[#3B82F6] px-8 py-3.5 text-center font-[family-name:var(--font-dm-sans)] text-[15px] font-medium text-white shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all hover:bg-[#2563EB] hover:shadow-[0_0_30px_rgba(59,130,246,0.45)] hover:scale-[1.02] active:scale-[0.98]"
               >
                 Get started free
               </Link>
@@ -191,14 +191,14 @@ export function LandingContent() {
 
         <div className="relative z-10">
           <ScrollReveal>
-            <h2 className="mb-6 font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[#E8ECF1] sm:text-4xl">
+            <h2 className="mb-6 font-[family-name:var(--font-outfit)] text-xl font-bold tracking-tight text-[#E8ECF1] sm:text-3xl md:text-4xl">
               Ready when you are.
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={100}>
             <Link
               href="/auth/signup"
-              className="inline-block rounded-full bg-[#3B82F6] px-10 py-4 font-[family-name:var(--font-dm-sans)] text-base font-medium text-white shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all hover:bg-[#2563EB] hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-block w-full max-w-xs rounded-full bg-[#3B82F6] px-10 py-4 font-[family-name:var(--font-dm-sans)] text-base font-medium text-white shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all hover:bg-[#2563EB] hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
             >
               Start for free
             </Link>
@@ -208,7 +208,7 @@ export function LandingContent() {
 
       {/* FOOTER */}
       <footer className="border-t border-[#1A1F2E] px-6 py-6">
-        <div className="flex items-center justify-center gap-4 font-[family-name:var(--font-dm-sans)] text-sm text-[#4A5568]">
+        <div className="flex flex-wrap items-center justify-center gap-4 font-[family-name:var(--font-dm-sans)] text-sm text-[#4A5568]">
           <span>Built by Bitcoineo</span>
           <a
             href="https://github.com/Bitcoineo/vault"

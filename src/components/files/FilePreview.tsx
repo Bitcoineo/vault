@@ -198,7 +198,7 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
       </div>
 
       {/* Actions */}
-      <div className="flex gap-2 border-t border-border p-4">
+      <div className="flex flex-wrap gap-2 border-t border-border p-4">
         <button
           onClick={handleDownload}
           disabled={downloading || file.status !== "ready"}

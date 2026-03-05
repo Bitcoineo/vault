@@ -24,8 +24,8 @@ export function BulkActionBar({
   if (selectedCount === 0) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-40 flex w-full max-w-md -translate-x-1/2 items-center gap-3 rounded-2xl border border-border bg-bg-primary px-5 py-3 shadow-lg sm:bottom-6 sm:w-auto">
-      <span className="text-sm font-medium text-fg-primary">
+    <div className="fixed bottom-0 left-0 right-0 z-40 flex w-full items-center gap-2 border-t border-border bg-bg-primary px-3 py-2.5 shadow-lg sm:bottom-6 sm:left-1/2 sm:right-auto sm:w-auto sm:max-w-md sm:-translate-x-1/2 sm:rounded-2xl sm:border sm:px-5 sm:py-3">
+      <span className="text-xs font-medium text-fg-primary sm:text-sm">
         {selectedCount} selected
       </span>
 
@@ -41,7 +41,7 @@ export function BulkActionBar({
             Move
           </button>
           {showMoveMenu && (
-            <div className="absolute bottom-full left-0 z-10 mb-2 w-48 rounded-xl border border-border bg-bg-primary py-1 shadow-lg">
+            <div className="absolute bottom-full left-0 z-10 mb-2 max-h-48 w-48 overflow-y-auto rounded-xl border border-border bg-bg-primary py-1 shadow-lg">
               <button
                 onClick={() => {
                   onMove(null);

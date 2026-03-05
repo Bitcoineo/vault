@@ -92,7 +92,7 @@ export function CompressModal({
           <label className="mb-2 block text-sm text-fg-secondary">
             Format
           </label>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {(["original", "webp", "jpeg"] as const).map((f) => (
               <button
                 key={f}
