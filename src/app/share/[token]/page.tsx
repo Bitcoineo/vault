@@ -33,7 +33,7 @@ export default function SharePage() {
           setDownloadUrl(res.data.downloadUrl);
         }
       })
-      .catch(() => setError("Failed to load shared file"))
+      .catch(() => setError("Something went wrong"))
       .finally(() => setLoading(false));
   }, [params.token]);
 
@@ -77,8 +77,8 @@ export default function SharePage() {
             <p className="text-lg font-medium text-fg-primary">{error}</p>
             <p className="mt-2 text-sm text-fg-tertiary">
               {error === "This link has expired"
-                ? "Ask the file owner for a new link."
-                : "This shared link is not valid."}
+                ? "Ask the sender for a new one."
+                : "This link doesn't exist."}
             </p>
           </div>
         ) : file ? (

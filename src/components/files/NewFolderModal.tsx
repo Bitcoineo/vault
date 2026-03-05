@@ -41,7 +41,7 @@ export function NewFolderModal({ onClose, onCreate }: NewFolderModalProps) {
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="mb-4 text-lg font-semibold tracking-tight text-fg-primary">
-          New Folder
+          New folder
         </h2>
         <form onSubmit={handleSubmit}>
           <input

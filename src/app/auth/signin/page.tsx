@@ -26,7 +26,7 @@ function SignInForm() {
     });
 
     if (result?.error) {
-      setError("Invalid email or password");
+      setError("That didn't work. Check your email and password.");
       setLoading(false);
     } else {
       router.push("/files");
@@ -41,11 +41,8 @@ function SignInForm() {
             <VaultLogo size={40} href={null as unknown as string} showText={false} />
           </div>
           <h1 className="text-xl font-semibold tracking-tight text-fg-primary">
-            Sign in to Vault
-          </h1>
-          <p className="mt-1 text-sm text-fg-secondary">
             Welcome back
-          </p>
+          </h1>
         </div>
 
         <button
@@ -96,7 +93,7 @@ function SignInForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full rounded-lg border border-border bg-bg-primary px-3 py-2.5 text-sm text-fg-primary outline-none transition-all focus:bg-bg-secondary focus:ring-2 focus:ring-accent/30 focus:border-accent"
-              placeholder="you@example.com"
+              placeholder="Email"
             />
           </div>
 
@@ -110,7 +107,7 @@ function SignInForm() {
               onChange={(e) => setPassword(e.target.value)}
               required
               className="w-full rounded-lg border border-border bg-bg-primary px-3 py-2.5 text-sm text-fg-primary outline-none transition-all focus:bg-bg-secondary focus:ring-2 focus:ring-accent/30 focus:border-accent"
-              placeholder="Enter your password"
+              placeholder="Password"
             />
           </div>
 
@@ -119,15 +116,15 @@ function SignInForm() {
             disabled={loading}
             className="w-full rounded-full bg-accent px-4 py-2.5 text-sm font-medium text-accent-fg shadow-sm transition-all hover:bg-accent-hover hover:shadow-md disabled:opacity-50"
           >
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? "One moment..." : "Continue"}
           </button>
         </form>
       </div>
 
       <p className="mt-6 text-center text-sm text-fg-tertiary">
-        Don&apos;t have an account?{" "}
+        New here?{" "}
         <Link href="/auth/signup" className="font-medium text-accent hover:underline">
-          Sign up
+          Create an account
         </Link>
       </p>
     </div>

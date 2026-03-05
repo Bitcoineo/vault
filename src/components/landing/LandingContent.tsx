@@ -18,21 +18,16 @@ export function LandingContent() {
         {/* Text content — foreground */}
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-32 lg:py-0">
           <div className="max-w-2xl">
-            {/* Eyebrow */}
-            <p className="mb-6 font-[family-name:var(--font-dm-sans)] text-xs font-medium uppercase tracking-[0.2em] text-[#3B82F6]">
-              File infrastructure for creators
-            </p>
-
             {/* Headline */}
             <h1 className="mb-6 font-[family-name:var(--font-outfit)] text-5xl font-bold tracking-tight text-[#E8ECF1] sm:text-6xl md:text-7xl">
-              Files without
+              All your files.
               <br />
-              borders.
+              Refined.
             </h1>
 
             {/* Subtitle */}
             <p className="mb-10 max-w-lg font-[family-name:var(--font-dm-sans)] text-lg leading-relaxed text-[#8B95A5] md:text-xl">
-              Upload, transform, compress, and share — from anywhere to anyone.
+              Upload, edit, compress, and share — all in one place.
             </p>
 
             {/* CTAs */}
@@ -41,7 +36,7 @@ export function LandingContent() {
                 href="/auth/signup"
                 className="rounded-full bg-[#3B82F6] px-8 py-3.5 font-[family-name:var(--font-dm-sans)] text-[15px] font-medium text-white shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all hover:bg-[#2563EB] hover:shadow-[0_0_30px_rgba(59,130,246,0.45)] hover:scale-[1.02] active:scale-[0.98]"
               >
-                Start uploading
+                Get started free
               </Link>
               <button
                 onClick={() => {
@@ -51,7 +46,7 @@ export function LandingContent() {
                 }}
                 className="rounded-full border border-[#2A2F3A] px-6 py-3.5 font-[family-name:var(--font-dm-sans)] text-[15px] text-[#8B95A5] transition-all hover:border-[#3B82F6]/40 hover:text-[#E8ECF1]"
               >
-                See features ↓
+                Learn more ↓
               </button>
             </div>
           </div>
@@ -66,7 +61,7 @@ export function LandingContent() {
         <div className="mx-auto max-w-5xl">
           <ScrollReveal>
             <h2 className="mb-20 text-center font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[#E8ECF1] sm:text-4xl">
-              Everything your files need.
+              What you can do.
             </h2>
           </ScrollReveal>
 
@@ -96,11 +91,10 @@ export function LandingContent() {
                 </div>
                 <div>
                   <h3 className="mb-3 font-[family-name:var(--font-outfit)] text-2xl font-semibold text-[#E8ECF1]">
-                    Transform
+                    Edit in your browser
                   </h3>
                   <p className="max-w-lg font-[family-name:var(--font-dm-sans)] text-lg leading-relaxed text-[#8B95A5]">
-                    Crop, rotate, resize, remove backgrounds — all in your
-                    browser. No uploads to third-party servers.
+                    Crop, rotate, resize. Remove backgrounds. No other tools needed.
                   </p>
                 </div>
               </div>
@@ -135,11 +129,10 @@ export function LandingContent() {
                 </div>
                 <div className="md:text-right">
                   <h3 className="mb-3 font-[family-name:var(--font-outfit)] text-2xl font-semibold text-[#E8ECF1]">
-                    Compress
+                    Make files lighter
                   </h3>
                   <p className="max-w-lg font-[family-name:var(--font-dm-sans)] text-lg leading-relaxed text-[#8B95A5]">
-                    Shrink images and bundle files into zips. Choose your quality
-                    and format. Keep what matters.
+                    Choose your quality. Shrink images or bundle into a zip.
                   </p>
                 </div>
               </div>
@@ -172,11 +165,10 @@ export function LandingContent() {
                 </div>
                 <div>
                   <h3 className="mb-3 font-[family-name:var(--font-outfit)] text-2xl font-semibold text-[#E8ECF1]">
-                    Share
+                    Share with a link
                   </h3>
                   <p className="max-w-lg font-[family-name:var(--font-dm-sans)] text-lg leading-relaxed text-[#8B95A5]">
-                    Generate a link that expires when you want it to. One click.
-                    No accounts needed for recipients.
+                    One click, expiring link. No sign-up needed to download.
                   </p>
                 </div>
               </div>
@@ -209,7 +201,7 @@ export function LandingContent() {
         <div className="relative z-10">
           <ScrollReveal>
             <h2 className="mb-6 font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[#E8ECF1] sm:text-4xl">
-              Your files deserve better.
+              Ready when you are.
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={100}>
@@ -217,7 +209,7 @@ export function LandingContent() {
               href="/auth/signup"
               className="inline-block rounded-full bg-[#3B82F6] px-10 py-4 font-[family-name:var(--font-dm-sans)] text-base font-medium text-white shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all hover:bg-[#2563EB] hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] hover:scale-[1.02] active:scale-[0.98]"
             >
-              Get started
+              Start for free
             </Link>
           </ScrollReveal>
         </div>
@@ -228,7 +220,7 @@ export function LandingContent() {
         <div className="flex items-center justify-center gap-4 font-[family-name:var(--font-dm-sans)] text-sm text-[#4A5568]">
           <span>Built by Bitcoineo</span>
           <a
-            href="https://github.com"
+            href="https://github.com/Bitcoineo/vault"
             target="_blank"
             rel="noopener noreferrer"
             className="transition-colors hover:text-[#8B95A5]"
@@ -243,7 +235,7 @@ export function LandingContent() {
             </svg>
           </a>
           <a
-            href="https://x.com"
+            href="https://x.com/Bitcoineo"
             target="_blank"
             rel="noopener noreferrer"
             className="transition-colors hover:text-[#8B95A5]"

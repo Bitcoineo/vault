@@ -29,7 +29,7 @@ export default function SignUpPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Something went wrong");
+        setError(data.error || "Something went wrong. Try again.");
         setLoading(false);
         return;
       }
@@ -41,13 +41,13 @@ export default function SignUpPage() {
       });
 
       if (result?.error) {
-        setError("Account created but sign in failed. Please sign in manually.");
+        setError("Account created. Please sign in.");
         setLoading(false);
       } else {
         router.push("/files");
       }
     } catch {
-      setError("Something went wrong");
+      setError("Something went wrong. Try again.");
       setLoading(false);
     }
   };
@@ -64,7 +64,7 @@ export default function SignUpPage() {
               Create your account
             </h1>
             <p className="mt-1 text-sm text-fg-secondary">
-              Free. 1 GB of cloud storage.
+              Free. No credit card.
             </p>
           </div>
 
@@ -130,7 +130,7 @@ export default function SignUpPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full rounded-lg border border-border bg-bg-primary px-3 py-2.5 text-sm text-fg-primary outline-none transition-all focus:bg-bg-secondary focus:ring-2 focus:ring-accent/30 focus:border-accent"
-                placeholder="you@example.com"
+                placeholder="Email"
               />
             </div>
 
@@ -154,13 +154,13 @@ export default function SignUpPage() {
               disabled={loading}
               className="w-full rounded-full bg-accent px-4 py-2.5 text-sm font-medium text-accent-fg shadow-sm transition-all hover:bg-accent-hover hover:shadow-md disabled:opacity-50"
             >
-              {loading ? "Creating account..." : "Create Account"}
+              {loading ? "Setting up..." : "Create account"}
             </button>
           </form>
         </div>
 
         <p className="mt-6 text-center text-sm text-fg-tertiary">
-          Already have an account?{" "}
+          Already have one?{" "}
           <Link href="/auth/signin" className="font-medium text-accent hover:underline">
             Sign in
           </Link>

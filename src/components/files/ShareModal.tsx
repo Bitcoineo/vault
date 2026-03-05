@@ -77,7 +77,7 @@ export function ShareModal({ fileId, fileName, onClose }: ShareModalProps) {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div>
-            <h3 className="text-[15px] font-medium text-fg-primary">Share file</h3>
+            <h3 className="text-[15px] font-medium text-fg-primary">Share</h3>
             <p className="mt-0.5 truncate text-xs text-fg-tertiary">
               {fileName}
             </p>

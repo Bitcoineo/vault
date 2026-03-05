@@ -188,7 +188,7 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
         {/* Extracted Text */}
         {isPdf && file.extractedText && (
           <div className="mt-4">
-            <span className="text-xs text-fg-tertiary">Extracted Text</span>
+            <span className="text-xs text-fg-tertiary">Text content</span>
             <div className="mt-1 max-h-40 overflow-y-auto rounded-xl bg-bg-secondary p-3 text-xs leading-relaxed text-fg-secondary">
               {file.extractedText.substring(0, 500)}
               {file.extractedText.length > 500 && "..."}

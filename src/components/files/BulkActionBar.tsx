@@ -38,7 +38,7 @@ export function BulkActionBar({
             onClick={() => setShowMoveMenu(!showMoveMenu)}
             className="rounded-full border border-border px-3 py-1.5 text-sm text-fg-primary transition-all hover:bg-bg-secondary hover:shadow-sm"
           >
-            Move to...
+            Move
           </button>
           {showMoveMenu && (
             <div className="absolute bottom-full left-0 z-10 mb-2 w-48 rounded-xl border border-border bg-bg-primary py-1 shadow-lg">

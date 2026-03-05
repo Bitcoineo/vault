@@ -308,14 +308,12 @@ export function FileBrowser({
   };
 
   const handleDeleteFolder = async (folderId: string) => {
-    if (!confirm("Delete this folder and all its contents?")) return;
     await fetch(`/api/folders/${folderId}`, { method: "DELETE" });
     setFolders((prev) => prev.filter((f) => f.id !== folderId));
     refreshData();
   };
 
   const handleDeleteFile = async (fileId: string) => {
-    if (!confirm("Delete this file?")) return;
     const file = files.find((f) => f.id === fileId);
     await fetch(`/api/files/${fileId}`, { method: "DELETE" });
     setFiles((prev) => prev.filter((f) => f.id !== fileId));
@@ -415,7 +413,7 @@ export function FileBrowser({
             100
         );
         alert(
-          `Compressed! Saved ${savings}% (${formatBytes(result.data.originalSize)} → ${formatBytes(result.data.compressedSize)})`
+          `Saved ${savings}% (${formatBytes(result.data.originalSize)} → ${formatBytes(result.data.compressedSize)})`
         );
         refreshData();
       }
@@ -436,22 +434,18 @@ export function FileBrowser({
       });
       const result = await res.json();
       if (result.error) {
-        alert(`Error: ${result.error}`);
+        alert(result.error);
       } else if (result.data) {
         refreshData();
       }
     } catch {
-      alert("Failed to remove background");
+      alert("Background removal failed. Try again.");
     }
     setRemovingBg(null);
   };
 
   const handleBulkDelete = async () => {
     if (selectedFileIds.size === 0) return;
-    if (
-      !confirm(`Delete ${selectedFileIds.size} selected file(s)?`)
-    )
-      return;
 
     const ids = Array.from(selectedFileIds);
     const totalSize = files
@@ -475,7 +469,6 @@ export function FileBrowser({
   const handleBulkZip = async () => {
     if (selectedFileIds.size < 2) return;
     const ids = Array.from(selectedFileIds);
-    if (!confirm(`Create a ZIP archive of ${ids.length} files?`)) return;
 
     try {
       const res = await fetch("/api/files/compress-zip", {
@@ -761,7 +754,7 @@ export function FileBrowser({
             onClick={() => setShowNewFolder(true)}
             className="hidden rounded-full border border-border px-4 py-1.5 text-sm text-fg-primary transition-all hover:bg-bg-secondary hover:shadow-sm sm:block"
           >
-            New Folder
+            New folder
           </button>
 
           <button
@@ -871,13 +864,16 @@ export function FileBrowser({
                 No files yet
               </p>
               <p className="mt-1 text-[15px] text-fg-tertiary">
-                Upload files or create a folder to get started
+                Drop files here or click Upload
               </p>
             </div>
           ) : searchResults !== null && searchResults.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center">
               <p className="text-lg font-medium text-fg-secondary">
-                No files match your search
+                Nothing matches
+              </p>
+              <p className="mt-1 text-sm text-fg-tertiary">
+                Try different words
               </p>
               <button
                 onClick={() => setSearchQuery("")}
@@ -1033,10 +1029,10 @@ export function FileBrowser({
           <div className="rounded-2xl border border-border bg-bg-primary p-8 text-center shadow-lg">
             <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
             <p className="mt-4 text-sm font-medium text-fg-primary">
-              Removing background...
+              Removing background
             </p>
             <p className="mt-1 text-xs text-fg-tertiary">
-              This may take a moment
+              One moment...
             </p>
           </div>
         </div>

@@ -27,7 +27,7 @@ export function UploadProgress({ uploads, onDismiss }: UploadProgressProps) {
         <span className="text-sm font-medium text-fg-primary">
           {allDone
             ? `${uploads.length} file${uploads.length > 1 ? "s" : ""} uploaded`
-            : `Uploading ${activeCount} file${activeCount > 1 ? "s" : ""}...`}
+            : `Uploading`}
         </span>
         {allDone && (
           <button
@@ -91,9 +91,14 @@ export function UploadProgress({ uploads, onDismiss }: UploadProgressProps) {
                   />
                 </div>
               )}
-              {upload.status === "error" && upload.error && (
+              {upload.status === "processing" && (
+                <p className="mt-0.5 text-xs text-fg-tertiary">
+                  Processing...
+                </p>
+              )}
+              {upload.status === "error" && (
                 <p className="mt-0.5 truncate text-xs text-danger">
-                  {upload.error}
+                  Upload failed{upload.error ? `: ${upload.error}` : ""}
                 </p>
               )}
             </div>

@@ -60,7 +60,7 @@ export function CompressModal({
     >
       <div className="w-full max-w-sm rounded-2xl border border-border bg-bg-primary p-6 shadow-lg">
         <h3 className="mb-1 text-base font-semibold tracking-tight text-fg-primary">
-          Compress Image
+          Compress
         </h3>
         <p className="mb-5 truncate text-sm text-fg-tertiary">{fileName}</p>
 
@@ -82,8 +82,8 @@ export function CompressModal({
             className="w-full accent-accent"
           />
           <div className="mt-1 flex justify-between text-xs text-fg-tertiary">
-            <span>Smaller</span>
-            <span>Higher quality</span>
+            <span>Smallest</span>
+            <span>Best quality</span>
           </div>
         </div>
 
@@ -112,11 +112,11 @@ export function CompressModal({
         {/* Size Estimate */}
         <div className="mb-5 rounded-xl bg-bg-secondary p-3">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-fg-tertiary">Original</span>
+            <span className="text-fg-tertiary">Before</span>
             <span className="text-fg-primary">{formatBytes(fileSize)}</span>
           </div>
           <div className="mt-1 flex items-center justify-between text-sm">
-            <span className="text-fg-tertiary">Estimated</span>
+            <span className="text-fg-tertiary">After (estimated)</span>
             <span className="font-medium text-accent">
               ~{formatBytes(estimated)}
             </span>

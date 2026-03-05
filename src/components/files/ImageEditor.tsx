@@ -617,14 +617,14 @@ export function ImageEditor({
             disabled={saving}
             className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-fg-primary transition-all hover:bg-bg-secondary disabled:opacity-50"
           >
-            {saving && saveMode === "copy" ? "Saving..." : "Save as copy"}
+            {saving && saveMode === "copy" ? "Saving..." : "Save copy"}
           </button>
           <button
             onClick={() => handleSave("overwrite")}
             disabled={saving}
             className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-all hover:bg-accent-hover disabled:opacity-50"
           >
-            {saving && saveMode === "overwrite" ? "Saving..." : "Overwrite"}
+            {saving && saveMode === "overwrite" ? "Saving..." : "Replace original"}
           </button>
           <button
             onClick={onClose}
@@ -802,7 +802,7 @@ export function ImageEditor({
         {/* Canvas preview */}
         <div className="relative flex flex-1 items-center justify-center overflow-hidden bg-bg-secondary p-8">
           {!imageLoaded && (
-            <div className="text-sm text-fg-tertiary">Loading image...</div>
+            <div className="text-sm text-fg-tertiary">Loading...</div>
           )}
           {imageLoaded && (
             <div

@@ -24,7 +24,7 @@ export function Breadcrumbs({
             : "text-fg-secondary"
         }`}
       >
-        My Files
+        Files
       </Link>
       {path.map((item, i) => (
         <span key={item.id} className="flex items-center gap-1">
