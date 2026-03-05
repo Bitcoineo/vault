@@ -66,12 +66,8 @@
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
 }
 
-html,
 body {
   overflow-x: hidden;
-}
-
-body {
   color: var(--fg-primary);
   background: var(--bg-primary);
 }

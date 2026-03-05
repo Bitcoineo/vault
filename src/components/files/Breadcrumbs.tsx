@@ -28,7 +28,7 @@ export function Breadcrumbs({
       >
         Files
       </Link>
-      {path.length > 0 && showCollapsed ? (
+      {showCollapsed ? (
         <>
           <span className="text-fg-tertiary">/</span>
           <span className="text-fg-tertiary">…</span>

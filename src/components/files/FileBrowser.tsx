@@ -15,6 +15,7 @@ import { ShareModal } from "./ShareModal";
 import { ImageEditor } from "./ImageEditor";
 import { CompressModal } from "./CompressModal";
 import { uploadFile } from "@/lib/upload";
+import { formatBytes } from "@/lib/format";
 import { signOut } from "next-auth/react";
 
 interface FileData {
@@ -43,13 +44,6 @@ interface FileBrowserProps {
   storageUsed: number;
   userName: string | null;
   avatarColor: string | null;
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes === 0) return "0 B";
-  const units = ["B", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  return `${(bytes / Math.pow(1024, i)).toFixed(i > 1 ? 1 : 0)} ${units[i]}`;
 }
 
 export function FileBrowser({
