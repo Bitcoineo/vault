@@ -12,6 +12,7 @@ import { StorageBar } from "./StorageBar";
 import { BulkActionBar } from "./BulkActionBar";
 import { ShareModal } from "./ShareModal";
 import { ImageEditor } from "./ImageEditor";
+import { CompressModal } from "./CompressModal";
 import { uploadFile } from "@/lib/upload";
 import { signOut } from "next-auth/react";
 
@@ -78,7 +79,8 @@ export function FileBrowser({
     width: number | null;
     height: number | null;
   } | null>(null);
-  const [, setCompressing] = useState<string | null>(null);
+  const [compressFileId, setCompressFileId] = useState<string | null>(null);
+  const [removingBg, setRemovingBg] = useState<string | null>(null);
 
   // Navigation history (back/forward/up)
   const navHistory = useRef<(string | null)[]>([currentFolderId]);
@@ -391,24 +393,25 @@ export function FileBrowser({
     }
   };
 
-  const handleCompress = async (fileId: string) => {
+  const handleCompress = (fileId: string) => {
     const file = files.find((f) => f.id === fileId);
     if (!file) return;
+    if (!/^image\/(jpeg|png|webp|gif)$/.test(file.mimeType)) return;
+    setCompressFileId(fileId);
+  };
 
-    const isImage = /^image\/(jpeg|png|webp|gif)$/.test(file.mimeType);
-    if (!isImage) return;
-
-    if (
-      !confirm(
-        `Compress "${file.name}"? This will create a WebP copy optimized for size.`
-      )
-    )
-      return;
-
-    setCompressing(fileId);
+  const handleCompressConfirm = async (
+    quality: number,
+    format: "original" | "webp" | "jpeg"
+  ) => {
+    if (!compressFileId) return;
+    const fileId = compressFileId;
+    setCompressFileId(null);
     try {
       const res = await fetch(`/api/files/${fileId}/compress`, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ quality, format }),
       });
       const result = await res.json();
       if (result.data) {
@@ -425,7 +428,28 @@ export function FileBrowser({
     } catch {
       // ignore
     }
-    setCompressing(null);
+  };
+
+  const handleRemoveBg = async (fileId: string) => {
+    const file = files.find((f) => f.id === fileId);
+    if (!file) return;
+    if (!/^image\/(jpeg|png|webp)$/.test(file.mimeType)) return;
+
+    setRemovingBg(fileId);
+    try {
+      const res = await fetch(`/api/files/${fileId}/remove-bg`, {
+        method: "POST",
+      });
+      const result = await res.json();
+      if (result.error) {
+        alert(`Error: ${result.error}`);
+      } else if (result.data) {
+        refreshData();
+      }
+    } catch {
+      alert("Failed to remove background");
+    }
+    setRemovingBg(null);
   };
 
   const handleBulkDelete = async () => {
@@ -896,6 +920,7 @@ export function FileBrowser({
                   onRename={handleRenameFile}
                   onShare={handleShare}
                   onCompress={handleCompress}
+                  onRemoveBg={handleRemoveBg}
                   onDragStart={handleDragStart}
                 />
               ))}
@@ -925,6 +950,7 @@ export function FileBrowser({
                   onRename={handleRenameFile}
                   onShare={handleShare}
                   onCompress={handleCompress}
+                  onRemoveBg={handleRemoveBg}
                   onDragStart={handleDragStart}
                 />
               ))}
@@ -940,6 +966,7 @@ export function FileBrowser({
             onDelete={handleDeleteFile}
             onRename={handleRenameFile}
             onEdit={handleEditImage}
+            onRemoveBg={handleRemoveBg}
           />
         )}
       </div>
@@ -992,6 +1019,36 @@ export function FileBrowser({
             refreshData();
           }}
         />
+      )}
+
+      {/* Compress Modal */}
+      {compressFileId && (() => {
+        const f = files.find((file) => file.id === compressFileId);
+        if (!f) return null;
+        return (
+          <CompressModal
+            fileName={f.name}
+            fileSize={f.size}
+            mimeType={f.mimeType}
+            onClose={() => setCompressFileId(null)}
+            onCompress={handleCompressConfirm}
+          />
+        );
+      })()}
+
+      {/* Removing Background Overlay */}
+      {removingBg && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="rounded-xl border border-border bg-bg-primary p-8 text-center shadow-lg">
+            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
+            <p className="mt-4 text-sm font-medium text-fg-primary">
+              Removing background...
+            </p>
+            <p className="mt-1 text-xs text-fg-tertiary">
+              This may take a moment
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );

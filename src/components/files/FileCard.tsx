@@ -24,6 +24,7 @@ interface FileCardProps {
   onRename: (id: string, name: string) => void;
   onShare?: (id: string) => void;
   onCompress?: (id: string) => void;
+  onRemoveBg?: (id: string) => void;
   onDragStart?: (e: React.DragEvent, fileId: string) => void;
 }
 
@@ -51,6 +52,7 @@ export function FileCard({
   onRename,
   onShare,
   onCompress,
+  onRemoveBg,
   onDragStart,
 }: FileCardProps) {
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
@@ -172,6 +174,18 @@ export function FileCard({
               className="w-full px-3 py-1.5 text-left text-sm text-fg-primary hover:bg-bg-secondary"
             >
               Compress
+            </button>
+          )}
+          {onRemoveBg && /^image\/(jpeg|png|webp)$/.test(file.mimeType) && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMenu(false);
+                onRemoveBg(file.id);
+              }}
+              className="w-full px-3 py-1.5 text-left text-sm text-fg-primary hover:bg-bg-secondary"
+            >
+              Remove background
             </button>
           )}
           <button

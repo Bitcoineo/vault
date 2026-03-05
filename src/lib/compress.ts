@@ -18,7 +18,9 @@ async function streamToBuffer(
 
 export async function compressImage(
   fileId: string,
-  userId: string
+  userId: string,
+  quality: number = 80,
+  format: "original" | "webp" | "jpeg" = "webp"
 ): Promise<{
   data: {
     file: typeof files.$inferSelect;
@@ -34,6 +36,8 @@ export async function compressImage(
     return { data: null, error: "File is not a compressible image" };
   }
 
+  const clampedQuality = Math.max(10, Math.min(100, Math.round(quality)));
+
   const response = await s3Client.send(
     new GetObjectCommand({ Bucket: BUCKET, Key: file.key })
   );
@@ -42,12 +46,37 @@ export async function compressImage(
   );
 
   const sharp = (await import("sharp")).default;
-  const compressed = await sharp(buffer).webp({ quality: 80 }).toBuffer();
+
+  // Determine output format
+  let outputFormat: "webp" | "jpeg" | "png" = "webp";
+  if (format === "jpeg") {
+    outputFormat = "jpeg";
+  } else if (format === "original") {
+    if (file.mimeType === "image/jpeg") outputFormat = "jpeg";
+    else if (file.mimeType === "image/png") outputFormat = "png";
+    else outputFormat = "webp";
+  }
+
+  let pipeline = sharp(buffer);
+  if (outputFormat === "webp") {
+    pipeline = pipeline.webp({ quality: clampedQuality });
+  } else if (outputFormat === "jpeg") {
+    pipeline = pipeline.jpeg({ quality: clampedQuality });
+  } else {
+    pipeline = pipeline.png({ quality: clampedQuality });
+  }
+
+  const compressed = await pipeline.toBuffer();
   const metadata = await sharp(compressed).metadata();
 
+  const extMap = { webp: "webp", jpeg: "jpg", png: "png" } as const;
+  const ext = extMap[outputFormat];
+  const mimeMap = { webp: "image/webp", jpeg: "image/jpeg", png: "image/png" } as const;
+  const outputMime = mimeMap[outputFormat];
+
   const baseName = file.name.replace(/\.[^.]+$/, "");
-  const newName = `${baseName}-compressed.webp`;
-  const newKey = `${userId}/${nanoid()}-compressed.webp`;
+  const newName = `${baseName}-compressed.${ext}`;
+  const newKey = `${userId}/${nanoid()}-compressed.${ext}`;
   const newId = nanoid();
 
   // Generate thumbnail
@@ -57,7 +86,7 @@ export async function compressImage(
     .toBuffer();
   const thumbKey = `${newKey}-thumb.webp`;
 
-  await uploadBuffer(newKey, compressed, "image/webp");
+  await uploadBuffer(newKey, compressed, outputMime);
   await uploadBuffer(thumbKey, thumb, "image/webp");
 
   await db.insert(files).values({
@@ -67,7 +96,7 @@ export async function compressImage(
     name: newName,
     key: newKey,
     thumbnailKey: thumbKey,
-    mimeType: "image/webp",
+    mimeType: outputMime,
     size: compressed.length,
     width: metadata.width || null,
     height: metadata.height || null,
