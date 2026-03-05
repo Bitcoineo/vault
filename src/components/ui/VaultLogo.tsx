@@ -22,30 +22,41 @@ export function VaultLogo({
         fill="none"
         className="text-accent"
       >
-        {/* Rounded container / vault body */}
-        <rect
-          x="4"
-          y="8"
-          width="24"
-          height="20"
-          rx="4"
+        <defs>
+          <linearGradient id="gem-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="currentColor" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="currentColor" stopOpacity="0.5" />
+          </linearGradient>
+        </defs>
+        {/* Diamond outer shape */}
+        <polygon
+          points="16,2 28,12 24,30 8,30 4,12"
           stroke="currentColor"
-          strokeWidth="2.5"
+          strokeWidth="2"
+          strokeLinejoin="round"
           fill="none"
         />
-        {/* Upward arrow — upload/emerge from vault */}
-        <path
-          d="M16 20V6"
+        {/* Crown facet line */}
+        <polyline
+          points="4,12 16,8 28,12"
           stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-        />
-        <path
-          d="M11 10l5-5 5 5"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
+          strokeWidth="1.5"
           strokeLinejoin="round"
+          fill="none"
+        />
+        {/* Inner facet lines */}
+        <line x1="16" y1="8" x2="8" y2="30" stroke="currentColor" strokeWidth="1.2" />
+        <line x1="16" y1="8" x2="24" y2="30" stroke="currentColor" strokeWidth="1.2" />
+        {/* Top facet fill for depth */}
+        <polygon
+          points="4,12 16,8 16,2"
+          fill="url(#gem-grad)"
+          opacity="0.3"
+        />
+        <polygon
+          points="28,12 16,8 16,2"
+          fill="url(#gem-grad)"
+          opacity="0.15"
         />
       </svg>
       {showText && <span className={textClass}>Vault</span>}

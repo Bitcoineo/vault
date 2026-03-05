@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { VaultLogo } from "../ui/VaultLogo";
 
 export function LandingNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -19,42 +20,12 @@ export function LandingNav() {
       }`}
     >
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5">
-          <svg
-            width={24}
-            height={24}
-            viewBox="0 0 32 32"
-            fill="none"
-            className="text-[#3B82F6]"
-          >
-            <rect
-              x="4"
-              y="8"
-              width="24"
-              height="20"
-              rx="4"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              fill="none"
-            />
-            <path
-              d="M16 20V6"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            />
-            <path
-              d="M11 10l5-5 5 5"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span className="font-[family-name:var(--font-outfit)] text-lg font-semibold tracking-tight text-white">
-            Vault
-          </span>
-        </Link>
+        <VaultLogo
+          size={24}
+          href="/"
+          showText
+          textClass="font-[family-name:var(--font-outfit)] text-lg font-semibold tracking-tight text-white"
+        />
 
         <div className="flex items-center gap-4">
           <Link

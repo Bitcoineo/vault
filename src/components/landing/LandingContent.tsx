@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { LandingNav } from "./LandingNav";
-import { GlobeAnimation } from "./GlobeAnimation";
+import { HeroVisual } from "./HeroVisual";
 import { ScrollReveal } from "./ScrollReveal";
 
 export function LandingContent() {
@@ -12,8 +12,8 @@ export function LandingContent() {
 
       {/* HERO — Full viewport */}
       <section className="relative flex min-h-screen items-center overflow-hidden">
-        {/* Three.js Globe — background */}
-        <GlobeAnimation />
+        {/* SVG Globe — background */}
+        <HeroVisual />
 
         {/* Text content — foreground */}
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-32 lg:py-0">
