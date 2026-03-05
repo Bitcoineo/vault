@@ -306,20 +306,42 @@ export function HeroVisual() {
             repeatCount="indefinite"
           />
         </circle>
+
+        {/* Connecting lines from globe dots to card positions */}
+        <line x1="150" y1="170" x2="60" y2="100" stroke="#1e3a5f" strokeWidth="0.5" opacity="0.2" />
+        <line x1="350" y1="200" x2="440" y2="360" stroke="#1e3a5f" strokeWidth="0.5" opacity="0.2" />
+        <line x1="200" y1="340" x2="160" y2="420" stroke="#1e3a5f" strokeWidth="0.5" opacity="0.2" />
       </svg>
 
-      {/* Floating file cards — CSS positioned */}
+      {/* Floating file cards — positioned near globe edges */}
       <div
         className="absolute hidden md:block"
         style={{
-          right: "calc(8% + 280px)",
-          top: "28%",
+          right: "calc(8% + 230px)",
+          top: "22%",
           animation: "hero-float-1 6s ease-in-out infinite",
         }}
       >
-        <div className="flex items-center gap-2 rounded-lg border border-[#1e3a5f]/40 bg-[#0D0D14]/80 px-3 py-2 backdrop-blur-sm">
-          <div className="h-6 w-5 rounded-sm bg-[#3B82F6]/30" />
-          <div className="space-y-1">
+        <div className="flex items-center gap-2.5 rounded-lg border border-[#1e3a5f]/40 bg-[#0D0D14]/80 px-3.5 py-2.5 backdrop-blur-sm">
+          <div className="h-8 w-6 rounded-sm bg-[#3B82F6]/30" />
+          <div className="space-y-1.5">
+            <div className="h-1.5 w-14 rounded-full bg-[#8B95A5]/30" />
+            <div className="h-1 w-10 rounded-full bg-[#8B95A5]/20" />
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="absolute hidden md:block"
+        style={{
+          right: "calc(8% - 30px)",
+          bottom: "22%",
+          animation: "hero-float-2 7s ease-in-out infinite",
+        }}
+      >
+        <div className="flex items-center gap-2.5 rounded-lg border border-[#1e3a5f]/40 bg-[#0D0D14]/80 px-3.5 py-2.5 backdrop-blur-sm">
+          <div className="h-8 w-6 rounded-sm bg-[#10B981]/30" />
+          <div className="space-y-1.5">
             <div className="h-1.5 w-12 rounded-full bg-[#8B95A5]/30" />
             <div className="h-1 w-8 rounded-full bg-[#8B95A5]/20" />
           </div>
@@ -329,33 +351,16 @@ export function HeroVisual() {
       <div
         className="absolute hidden md:block"
         style={{
-          right: "calc(8% - 40px)",
-          bottom: "25%",
-          animation: "hero-float-2 7s ease-in-out infinite",
-        }}
-      >
-        <div className="flex items-center gap-2 rounded-lg border border-[#1e3a5f]/40 bg-[#0D0D14]/80 px-3 py-2 backdrop-blur-sm">
-          <div className="h-6 w-5 rounded-sm bg-[#10B981]/30" />
-          <div className="space-y-1">
-            <div className="h-1.5 w-10 rounded-full bg-[#8B95A5]/30" />
-            <div className="h-1 w-6 rounded-full bg-[#8B95A5]/20" />
-          </div>
-        </div>
-      </div>
-
-      <div
-        className="absolute hidden md:block"
-        style={{
-          right: "calc(8% + 100px)",
-          bottom: "18%",
+          right: "calc(8% + 140px)",
+          bottom: "14%",
           animation: "hero-float-3 8s ease-in-out infinite",
         }}
       >
-        <div className="flex items-center gap-2 rounded-lg border border-[#1e3a5f]/40 bg-[#0D0D14]/80 px-3 py-2 backdrop-blur-sm">
-          <div className="h-6 w-5 rounded-sm bg-[#F59E0B]/30" />
-          <div className="space-y-1">
-            <div className="h-1.5 w-14 rounded-full bg-[#8B95A5]/30" />
-            <div className="h-1 w-9 rounded-full bg-[#8B95A5]/20" />
+        <div className="flex items-center gap-2.5 rounded-lg border border-[#1e3a5f]/40 bg-[#0D0D14]/80 px-3.5 py-2.5 backdrop-blur-sm">
+          <div className="h-8 w-6 rounded-sm bg-[#F59E0B]/30" />
+          <div className="space-y-1.5">
+            <div className="h-1.5 w-16 rounded-full bg-[#8B95A5]/30" />
+            <div className="h-1 w-10 rounded-full bg-[#8B95A5]/20" />
           </div>
         </div>
       </div>

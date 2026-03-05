@@ -11,7 +11,7 @@ export function LandingContent() {
       <LandingNav />
 
       {/* HERO — Full viewport */}
-      <section className="relative flex min-h-screen items-center overflow-hidden">
+      <section className="relative flex min-h-[85vh] items-center overflow-hidden">
         {/* SVG Globe — background */}
         <HeroVisual />
 
@@ -57,22 +57,22 @@ export function LandingContent() {
       </section>
 
       {/* FEATURES */}
-      <section id="features" className="bg-[#0D0D14] px-6 py-32">
+      <section id="features" className="bg-[#0D0D14] px-6 py-20">
         <div className="mx-auto max-w-5xl">
           <ScrollReveal>
-            <h2 className="mb-20 text-center font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[#E8ECF1] sm:text-4xl">
+            <h2 className="mb-12 text-center font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[#E8ECF1] sm:text-4xl">
               What you can do.
             </h2>
           </ScrollReveal>
 
-          <div className="space-y-24">
-            {/* Feature 1: Transform */}
-            <ScrollReveal delay={0}>
-              <div className="flex flex-col items-start gap-8 md:flex-row md:items-center">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-[#3B82F6]/10">
+          <ScrollReveal delay={100}>
+            <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+              {/* Feature 1: Edit */}
+              <div className="text-center">
+                <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#3B82F6]/10">
                   <svg
-                    width="48"
-                    height="48"
+                    width="32"
+                    height="32"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="#3B82F6"
@@ -89,27 +89,20 @@ export function LandingContent() {
                     <polyline points="21 15 16 10 5 21" />
                   </svg>
                 </div>
-                <div>
-                  <h3 className="mb-3 font-[family-name:var(--font-outfit)] text-2xl font-semibold text-[#E8ECF1]">
-                    Edit in your browser
-                  </h3>
-                  <p className="max-w-lg font-[family-name:var(--font-dm-sans)] text-lg leading-relaxed text-[#8B95A5]">
-                    Crop, rotate, resize. Remove backgrounds. No other tools needed.
-                  </p>
-                </div>
+                <h3 className="mb-2 font-[family-name:var(--font-outfit)] text-lg font-semibold text-[#E8ECF1]">
+                  Edit in your browser
+                </h3>
+                <p className="font-[family-name:var(--font-dm-sans)] text-[15px] leading-relaxed text-[#8B95A5]">
+                  Crop, rotate, resize. Remove backgrounds. No other tools needed.
+                </p>
               </div>
-            </ScrollReveal>
 
-            {/* Separator */}
-            <div className="mx-auto h-px w-full max-w-md bg-gradient-to-r from-transparent via-[#2A2F3A] to-transparent" />
-
-            {/* Feature 2: Compress */}
-            <ScrollReveal delay={100}>
-              <div className="flex flex-col items-start gap-8 md:flex-row-reverse md:items-center">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-[#3B82F6]/10">
+              {/* Feature 2: Compress */}
+              <div className="text-center">
+                <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#3B82F6]/10">
                   <svg
-                    width="48"
-                    height="48"
+                    width="32"
+                    height="32"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="#3B82F6"
@@ -127,27 +120,20 @@ export function LandingContent() {
                     <line x1="3" y1="21" x2="10" y2="14" />
                   </svg>
                 </div>
-                <div className="md:text-right">
-                  <h3 className="mb-3 font-[family-name:var(--font-outfit)] text-2xl font-semibold text-[#E8ECF1]">
-                    Make files lighter
-                  </h3>
-                  <p className="max-w-lg font-[family-name:var(--font-dm-sans)] text-lg leading-relaxed text-[#8B95A5]">
-                    Choose your quality. Shrink images or bundle into a zip.
-                  </p>
-                </div>
+                <h3 className="mb-2 font-[family-name:var(--font-outfit)] text-lg font-semibold text-[#E8ECF1]">
+                  Make files lighter
+                </h3>
+                <p className="font-[family-name:var(--font-dm-sans)] text-[15px] leading-relaxed text-[#8B95A5]">
+                  Choose your quality. Shrink images or bundle into a zip.
+                </p>
               </div>
-            </ScrollReveal>
 
-            {/* Separator */}
-            <div className="mx-auto h-px w-full max-w-md bg-gradient-to-r from-transparent via-[#2A2F3A] to-transparent" />
-
-            {/* Feature 3: Share */}
-            <ScrollReveal delay={200}>
-              <div className="flex flex-col items-start gap-8 md:flex-row md:items-center">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-[#3B82F6]/10">
+              {/* Feature 3: Share */}
+              <div className="text-center">
+                <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#3B82F6]/10">
                   <svg
-                    width="48"
-                    height="48"
+                    width="32"
+                    height="32"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="#3B82F6"
@@ -163,28 +149,26 @@ export function LandingContent() {
                     <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                   </svg>
                 </div>
-                <div>
-                  <h3 className="mb-3 font-[family-name:var(--font-outfit)] text-2xl font-semibold text-[#E8ECF1]">
-                    Share with a link
-                  </h3>
-                  <p className="max-w-lg font-[family-name:var(--font-dm-sans)] text-lg leading-relaxed text-[#8B95A5]">
-                    One click, expiring link. No sign-up needed to download.
-                  </p>
-                </div>
+                <h3 className="mb-2 font-[family-name:var(--font-outfit)] text-lg font-semibold text-[#E8ECF1]">
+                  Share with a link
+                </h3>
+                <p className="font-[family-name:var(--font-dm-sans)] text-[15px] leading-relaxed text-[#8B95A5]">
+                  One click, expiring link. No sign-up needed to download.
+                </p>
               </div>
-            </ScrollReveal>
-          </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* BOTTOM CTA */}
-      <section className="relative overflow-hidden bg-[#0A0A0F] px-6 py-32 text-center">
+      <section className="relative overflow-hidden bg-[#0A0A0F] px-6 pb-32 pt-40 text-center">
         {/* Radial blue glow */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse at center, rgba(59,130,246,0.08) 0%, transparent 70%)",
+              "radial-gradient(ellipse at center, rgba(59,130,246,0.12) 0%, transparent 70%)",
           }}
         />
 
