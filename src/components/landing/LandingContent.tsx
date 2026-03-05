@@ -16,7 +16,7 @@ export function LandingContent() {
         <HeroVisual />
 
         {/* Text content — foreground */}
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-32 lg:py-0">
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 py-20 lg:py-0">
           <div className="max-w-2xl">
             {/* Headline */}
             <h1 className="mb-6 font-[family-name:var(--font-outfit)] text-5xl font-bold tracking-tight text-[#E8ECF1] sm:text-6xl md:text-7xl">
@@ -57,7 +57,7 @@ export function LandingContent() {
       </section>
 
       {/* FEATURES */}
-      <section id="features" className="bg-[#0D0D14] px-6 py-20">
+      <section id="features" className="bg-[#0D0D14] px-6 pb-16 pt-10">
         <div className="mx-auto max-w-5xl">
           <ScrollReveal>
             <h2 className="mb-12 text-center font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[#E8ECF1] sm:text-4xl">
@@ -162,7 +162,7 @@ export function LandingContent() {
       </section>
 
       {/* BOTTOM CTA */}
-      <section className="relative overflow-hidden bg-[#0A0A0F] px-6 pb-32 pt-40 text-center">
+      <section className="relative overflow-hidden bg-[#0A0A0F] px-6 py-20 text-center">
         {/* Radial blue glow */}
         <div
           className="pointer-events-none absolute inset-0"

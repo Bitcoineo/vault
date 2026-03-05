@@ -308,17 +308,17 @@ export function HeroVisual() {
         </circle>
 
         {/* Connecting lines from globe dots to card positions */}
-        <line x1="150" y1="170" x2="60" y2="100" stroke="#1e3a5f" strokeWidth="0.5" opacity="0.2" />
-        <line x1="350" y1="200" x2="440" y2="360" stroke="#1e3a5f" strokeWidth="0.5" opacity="0.2" />
-        <line x1="200" y1="340" x2="160" y2="420" stroke="#1e3a5f" strokeWidth="0.5" opacity="0.2" />
+        <line x1="150" y1="170" x2="80" y2="80" stroke="#1e3a5f" strokeWidth="0.5" opacity="0.2" />
+        <line x1="350" y1="200" x2="430" y2="340" stroke="#1e3a5f" strokeWidth="0.5" opacity="0.2" />
+        <line x1="200" y1="340" x2="140" y2="400" stroke="#1e3a5f" strokeWidth="0.5" opacity="0.2" />
       </svg>
 
-      {/* Floating file cards — positioned near globe edges */}
+      {/* Floating file cards — overlapping globe edge */}
       <div
         className="absolute hidden md:block"
         style={{
-          right: "calc(8% + 230px)",
-          top: "22%",
+          right: "calc(8% + 210px)",
+          top: "26%",
           animation: "hero-float-1 6s ease-in-out infinite",
         }}
       >
@@ -334,8 +334,8 @@ export function HeroVisual() {
       <div
         className="absolute hidden md:block"
         style={{
-          right: "calc(8% - 30px)",
-          bottom: "22%",
+          right: "calc(8% - 10px)",
+          bottom: "26%",
           animation: "hero-float-2 7s ease-in-out infinite",
         }}
       >
@@ -351,8 +351,8 @@ export function HeroVisual() {
       <div
         className="absolute hidden md:block"
         style={{
-          right: "calc(8% + 140px)",
-          bottom: "14%",
+          right: "calc(8% + 160px)",
+          bottom: "18%",
           animation: "hero-float-3 8s ease-in-out infinite",
         }}
       >
