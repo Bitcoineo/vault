@@ -101,7 +101,9 @@ export function FileCard({
     setIsRenaming(false);
   };
 
-  const selectedRing = isSelected ? "ring-2 ring-blue-500" : "";
+  const selectedStyle = isSelected
+    ? "ring-2 ring-accent bg-accent-light"
+    : "";
 
   const statusBadge =
     file.status === "uploading" ? (
@@ -109,7 +111,7 @@ export function FileCard({
         Uploading
       </span>
     ) : file.status === "processing" ? (
-      <span className="animate-pulse-subtle rounded-full bg-blue-500/20 px-2 py-0.5 text-xs text-blue-500">
+      <span className="animate-pulse-subtle rounded-full bg-accent/20 px-2 py-0.5 text-xs text-accent">
         Processing
       </span>
     ) : file.status === "error" ? (
@@ -125,7 +127,7 @@ export function FileCard({
           e.stopPropagation();
           setShowMenu(!showMenu);
         }}
-        className="rounded p-1 opacity-0 transition-opacity hover:bg-bg-tertiary group-hover:opacity-100"
+        className="rounded-full p-1 opacity-0 transition-opacity hover:bg-bg-tertiary group-hover:opacity-100"
       >
         <svg
           width="16"
@@ -140,7 +142,7 @@ export function FileCard({
         </svg>
       </button>
       {showMenu && (
-        <div className="absolute right-0 top-full z-10 mt-1 w-36 rounded-lg border border-border bg-bg-primary py-1 shadow-lg">
+        <div className="absolute right-0 top-full z-10 mt-1 w-40 rounded-xl border border-border bg-bg-primary py-1 shadow-lg">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -214,14 +216,14 @@ export function FileCard({
         if (e.key === "Escape") setIsRenaming(false);
       }}
       onClick={(e) => e.stopPropagation()}
-      className="w-full rounded border border-accent bg-bg-primary px-2 py-0.5 text-sm text-fg-primary outline-none"
+      className="w-full rounded-lg border border-accent bg-bg-primary px-2 py-0.5 text-sm text-fg-primary outline-none"
     />
   ) : null;
 
   if (viewMode === "list") {
     return (
       <div
-        className={`group flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-bg-secondary ${selectedRing}`}
+        className={`group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2 transition-all hover:bg-bg-primary hover:shadow-sm ${selectedStyle}`}
         onClick={onClick}
         draggable
         onDragStart={(e) => onDragStart?.(e, file.id)}
@@ -230,13 +232,13 @@ export function FileCard({
           <img
             src={thumbnailUrl}
             alt=""
-            className="h-8 w-8 rounded object-cover"
+            className="h-8 w-8 rounded-lg object-cover"
           />
         ) : (
           <FileIcon mimeType={file.mimeType} size={20} />
         )}
         {nameDisplay || (
-          <span className="flex-1 truncate text-sm text-fg-primary">
+          <span className="flex-1 truncate text-[15px] text-fg-primary">
             {file.name}
           </span>
         )}
@@ -254,12 +256,12 @@ export function FileCard({
 
   return (
     <div
-      className={`group relative cursor-pointer rounded-xl border border-border bg-bg-primary transition-all hover:-translate-y-0.5 hover:shadow-md ${selectedRing}`}
+      className={`group relative cursor-pointer rounded-2xl border border-border bg-bg-primary transition-all hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] ${selectedStyle}`}
       onClick={onClick}
       draggable
       onDragStart={(e) => onDragStart?.(e, file.id)}
     >
-      <div className="flex aspect-square items-center justify-center overflow-hidden rounded-t-xl bg-bg-secondary">
+      <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-t-2xl bg-bg-secondary">
         {thumbnailUrl ? (
           <img
             src={thumbnailUrl}
@@ -270,10 +272,10 @@ export function FileCard({
           <FileIcon mimeType={file.mimeType} size={48} />
         )}
       </div>
-      <div className="p-3">
+      <div className="p-3.5">
         <div className="flex items-start justify-between gap-1">
           {nameDisplay || (
-            <p className="truncate text-sm font-medium text-fg-primary">
+            <p className="truncate text-[15px] font-medium text-fg-primary">
               {file.name}
             </p>
           )}

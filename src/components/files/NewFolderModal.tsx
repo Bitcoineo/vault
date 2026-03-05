@@ -37,10 +37,10 @@ export function NewFolderModal({ onClose, onCreate }: NewFolderModalProps) {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-sm animate-fade-in-up rounded-xl border border-border bg-bg-primary p-6 shadow-lg"
+        className="w-full max-w-sm animate-fade-in-up rounded-2xl border border-border bg-bg-primary p-6 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="mb-4 text-lg font-semibold text-fg-primary">
+        <h2 className="mb-4 text-lg font-semibold tracking-tight text-fg-primary">
           New Folder
         </h2>
         <form onSubmit={handleSubmit}>
@@ -50,20 +50,20 @@ export function NewFolderModal({ onClose, onCreate }: NewFolderModalProps) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Folder name"
-            className="mb-4 w-full rounded-lg border border-border bg-bg-secondary px-3 py-2 text-sm text-fg-primary outline-none transition-colors focus:border-accent"
+            className="mb-4 w-full rounded-lg border border-border bg-bg-primary px-3 py-2.5 text-sm text-fg-primary outline-none transition-all focus:bg-bg-secondary focus:ring-2 focus:ring-accent/30 focus:border-accent"
           />
           <div className="flex justify-end gap-2">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg px-4 py-2 text-sm text-fg-secondary transition-colors hover:bg-bg-secondary"
+              className="rounded-full px-4 py-2 text-sm text-fg-secondary transition-colors hover:bg-bg-secondary"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!name.trim() || loading}
-              className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-all hover:bg-accent-hover disabled:opacity-50"
+              className="rounded-full bg-accent px-5 py-2 text-sm font-medium text-accent-fg shadow-sm transition-all hover:bg-accent-hover hover:shadow-md disabled:opacity-50"
             >
               {loading ? "Creating..." : "Create"}
             </button>

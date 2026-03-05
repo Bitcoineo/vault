@@ -27,17 +27,13 @@ export function CompressModal({
   const [quality, setQuality] = useState(80);
   const [format, setFormat] = useState<"original" | "webp" | "jpeg">("webp");
 
-  // Rough size estimate based on quality and format
   const estimateSize = () => {
-    // WebP is generally 25-35% smaller than JPEG at same quality
-    // JPEG at quality 80 is roughly 60-70% of original PNG
     let ratio = quality / 100;
     if (format === "webp") {
       ratio *= 0.65;
     } else if (format === "jpeg") {
       ratio *= 0.75;
     } else {
-      // "original" format — estimate based on current type
       if (mimeType === "image/png") ratio *= 0.7;
       else ratio *= 0.8;
     }
@@ -62,8 +58,8 @@ export function CompressModal({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="w-full max-w-sm rounded-xl border border-border bg-bg-primary p-6 shadow-lg">
-        <h3 className="mb-1 text-base font-medium text-fg-primary">
+      <div className="w-full max-w-sm rounded-2xl border border-border bg-bg-primary p-6 shadow-lg">
+        <h3 className="mb-1 text-base font-semibold tracking-tight text-fg-primary">
           Compress Image
         </h3>
         <p className="mb-5 truncate text-sm text-fg-tertiary">{fileName}</p>
@@ -101,7 +97,7 @@ export function CompressModal({
               <button
                 key={f}
                 onClick={() => setFormat(f)}
-                className={`flex-1 rounded-lg border px-3 py-2 text-sm transition-colors ${
+                className={`flex-1 rounded-full border px-3 py-2 text-sm transition-all ${
                   format === f
                     ? "border-accent bg-accent/10 text-accent"
                     : "border-border text-fg-primary hover:bg-bg-secondary"
@@ -114,7 +110,7 @@ export function CompressModal({
         </div>
 
         {/* Size Estimate */}
-        <div className="mb-5 rounded-lg bg-bg-secondary p-3">
+        <div className="mb-5 rounded-xl bg-bg-secondary p-3">
           <div className="flex items-center justify-between text-sm">
             <span className="text-fg-tertiary">Original</span>
             <span className="text-fg-primary">{formatBytes(fileSize)}</span>
@@ -136,13 +132,13 @@ export function CompressModal({
         <div className="flex gap-2">
           <button
             onClick={onClose}
-            className="flex-1 rounded-lg border border-border px-4 py-2 text-sm text-fg-primary transition-colors hover:bg-bg-secondary"
+            className="flex-1 rounded-full border border-border px-4 py-2 text-sm text-fg-primary transition-all hover:bg-bg-secondary"
           >
             Cancel
           </button>
           <button
             onClick={() => onCompress(quality, format)}
-            className="flex-1 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-all hover:bg-accent-hover"
+            className="flex-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-fg shadow-sm transition-all hover:bg-accent-hover hover:shadow-md"
           >
             Compress
           </button>

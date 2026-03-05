@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { VaultLogo } from "@/components/ui/VaultLogo";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { FolderCard } from "./FolderCard";
 import { FileCard } from "./FileCard";
@@ -82,14 +83,12 @@ export function FileBrowser({
   const [compressFileId, setCompressFileId] = useState<string | null>(null);
   const [removingBg, setRemovingBg] = useState<string | null>(null);
 
-  // Navigation history (back/forward/up)
+  // Navigation history
   const navHistory = useRef<(string | null)[]>([currentFolderId]);
   const navIndex = useRef(0);
   const isNavAction = useRef(false);
-  // Force re-render when nav index changes (refs don't trigger renders)
   const [, setNavTick] = useState(0);
 
-  // Track folder changes: push to history unless it was a back/forward/up action
   useEffect(() => {
     if (isNavAction.current) {
       isNavAction.current = false;
@@ -138,7 +137,6 @@ export function FileBrowser({
     navigateTo(parentFolderId);
   }, [currentFolderId, parentFolderId, navigateTo]);
 
-  // Sync state when server props change (folder navigation)
   useEffect(() => {
     setFiles(initialFiles);
     setFolders(initialFolders);
@@ -163,7 +161,6 @@ export function FileBrowser({
   );
   const [lastClickedIndex, setLastClickedIndex] = useState<number | null>(null);
 
-  // Search with debounce
   useEffect(() => {
     if (!searchQuery.trim()) {
       setSearchResults(null);
@@ -187,14 +184,12 @@ export function FileBrowser({
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Keyboard shortcuts: bulk delete + navigation
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       const isInput =
         e.target instanceof HTMLElement &&
         (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA");
 
-      // Alt+Arrow navigation
       if (e.altKey && !isInput) {
         if (e.key === "ArrowLeft") {
           e.preventDefault();
@@ -213,7 +208,6 @@ export function FileBrowser({
         }
       }
 
-      // Bulk delete
       if (
         (e.key === "Delete" || e.key === "Backspace") &&
         selectedFileIds.size > 0 &&
@@ -519,7 +513,6 @@ export function FileBrowser({
     const fileIndex = displayFiles.findIndex((f) => f.id === file.id);
 
     if (e.metaKey || e.ctrlKey) {
-      // Toggle selection
       setSelectedFileIds((prev) => {
         const next = new Set(prev);
         if (next.has(file.id)) {
@@ -531,7 +524,6 @@ export function FileBrowser({
       });
       setLastClickedIndex(fileIndex);
     } else if (e.shiftKey && lastClickedIndex !== null) {
-      // Range select
       const start = Math.min(lastClickedIndex, fileIndex);
       const end = Math.max(lastClickedIndex, fileIndex);
       const rangeIds = displayFiles.slice(start, end + 1).map((f) => f.id);
@@ -541,7 +533,6 @@ export function FileBrowser({
         return next;
       });
     } else {
-      // Normal click
       if (selectedFileIds.size > 0) {
         setSelectedFileIds(new Set());
       } else {
@@ -557,7 +548,6 @@ export function FileBrowser({
   };
 
   const handleDragOver = (e: React.DragEvent) => {
-    // Only show upload overlay for external file drops
     if (e.dataTransfer.types.includes("Files") && !e.dataTransfer.types.includes("application/x-vault-file")) {
       e.preventDefault();
       setIsDragging(true);
@@ -572,7 +562,6 @@ export function FileBrowser({
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    // Only handle external file drops, not internal file moves
     if (
       e.dataTransfer.types.includes("Files") &&
       !e.dataTransfer.types.includes("application/x-vault-file")
@@ -595,48 +584,27 @@ export function FileBrowser({
   const displayFiles = searchResults ?? files;
 
   return (
-    <div className="flex h-screen flex-col bg-bg-primary">
-      {/* Top Bar */}
-      <header className="flex items-center justify-between border-b border-border px-4 py-3 sm:px-6">
-        <div className="flex items-center gap-3">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            className="text-accent"
-          >
-            <path
-              d="M12 2L3 7v10l9 5 9-5V7l-9-5z"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M12 22V12"
-              stroke="currentColor"
-              strokeWidth="2"
-            />
-            <path
-              d="M3 7l9 5 9-5"
-              stroke="currentColor"
-              strokeWidth="2"
-            />
-          </svg>
-          <span className="text-lg font-bold text-fg-primary">Vault</span>
+    <div className="flex h-screen flex-col bg-bg-secondary animate-page-fade-in">
+      {/* Top Bar — white/surface, logo left, breadcrumb center, avatar right */}
+      <header className="flex items-center justify-between border-b border-border bg-bg-primary px-4 py-3 sm:px-6">
+        <VaultLogo href="/files" size={24} textClass="text-base font-semibold tracking-tight text-fg-primary" />
+
+        <div className="hidden sm:flex">
+          <Breadcrumbs path={folderPath} currentFolderId={currentFolderId} />
         </div>
-        <div className="flex items-center gap-4">
+
+        <div className="flex items-center gap-3">
           <StorageBar storageUsed={storageUsed} />
           <div className="relative">
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
               className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-medium text-white transition-transform hover:scale-105"
-              style={{ backgroundColor: avatarColor || "#F97316" }}
+              style={{ backgroundColor: avatarColor || "#2563eb" }}
             >
               {initials}
             </button>
             {showUserMenu && (
-              <div className="absolute right-0 top-full z-20 mt-2 w-40 rounded-lg border border-border bg-bg-primary py-1 shadow-lg">
+              <div className="absolute right-0 top-full z-20 mt-2 w-40 rounded-xl border border-border bg-bg-primary py-1 shadow-lg">
                 <div className="border-b border-border px-3 py-2">
                   <p className="truncate text-sm font-medium text-fg-primary">
                     {userName}
@@ -654,16 +622,16 @@ export function FileBrowser({
         </div>
       </header>
 
-      {/* Action Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-2 sm:px-6">
+      {/* Action Bar — below top bar */}
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-bg-primary px-4 py-2.5 sm:px-6">
         <div className="flex items-center gap-2">
           {/* Navigation Arrows */}
-          <div className="flex rounded-lg border border-border">
+          <div className="flex rounded-full border border-border">
             <button
               onClick={goBack}
               disabled={!canGoBack}
               title="Back (Alt+Left)"
-              className="rounded-l-lg p-1.5 text-fg-secondary transition-colors hover:bg-bg-tertiary disabled:cursor-not-allowed disabled:opacity-30"
+              className="rounded-l-full p-1.5 text-fg-secondary transition-colors hover:bg-bg-tertiary disabled:cursor-not-allowed disabled:opacity-30"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="15 18 9 12 15 6" />
@@ -683,15 +651,20 @@ export function FileBrowser({
               onClick={goUp}
               disabled={!canGoUp}
               title="Up to parent folder (Alt+Up)"
-              className="rounded-r-lg border-l border-border p-1.5 text-fg-secondary transition-colors hover:bg-bg-tertiary disabled:cursor-not-allowed disabled:opacity-30"
+              className="rounded-r-full border-l border-border p-1.5 text-fg-secondary transition-colors hover:bg-bg-tertiary disabled:cursor-not-allowed disabled:opacity-30"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="18 15 12 9 6 15" />
               </svg>
             </button>
           </div>
-          <Breadcrumbs path={folderPath} currentFolderId={currentFolderId} />
+
+          {/* Mobile breadcrumbs */}
+          <div className="sm:hidden">
+            <Breadcrumbs path={folderPath} currentFolderId={currentFolderId} />
+          </div>
         </div>
+
         <div className="flex items-center gap-2">
           {/* Search */}
           <div className="relative">
@@ -702,7 +675,7 @@ export function FileBrowser({
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 text-fg-tertiary"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-tertiary"
             >
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -712,12 +685,12 @@ export function FileBrowser({
               placeholder="Search files..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-36 rounded-lg border border-border bg-bg-primary py-1.5 pl-8 pr-3 text-sm text-fg-primary placeholder-fg-tertiary outline-none transition-all focus:w-48 focus:border-accent sm:w-40 sm:focus:w-56"
+              className="w-36 rounded-full border border-border bg-bg-secondary py-1.5 pl-9 pr-3 text-sm text-fg-primary placeholder-fg-tertiary outline-none transition-all focus:w-48 focus:border-accent focus:ring-2 focus:ring-accent/20 sm:w-44 sm:focus:w-60"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-fg-tertiary hover:text-fg-primary"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-fg-tertiary hover:text-fg-primary"
               >
                 <svg
                   width="12"
@@ -735,10 +708,10 @@ export function FileBrowser({
           </div>
 
           {/* View Toggle */}
-          <div className="flex rounded-lg border border-border">
+          <div className="flex rounded-full border border-border">
             <button
               onClick={() => setViewMode("grid")}
-              className={`p-1.5 ${
+              className={`rounded-l-full p-1.5 ${
                 viewMode === "grid"
                   ? "bg-bg-tertiary text-fg-primary"
                   : "text-fg-tertiary hover:text-fg-secondary"
@@ -760,7 +733,7 @@ export function FileBrowser({
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`p-1.5 ${
+              className={`rounded-r-full p-1.5 ${
                 viewMode === "list"
                   ? "bg-bg-tertiary text-fg-primary"
                   : "text-fg-tertiary hover:text-fg-secondary"
@@ -786,14 +759,14 @@ export function FileBrowser({
 
           <button
             onClick={() => setShowNewFolder(true)}
-            className="hidden rounded-lg border border-border px-3 py-1.5 text-sm text-fg-primary transition-colors hover:bg-bg-secondary sm:block"
+            className="hidden rounded-full border border-border px-4 py-1.5 text-sm text-fg-primary transition-all hover:bg-bg-secondary hover:shadow-sm sm:block"
           >
             New Folder
           </button>
 
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-accent-fg transition-all hover:bg-accent-hover"
+            className="rounded-full bg-accent px-5 py-1.5 text-sm font-medium text-accent-fg shadow-sm transition-all hover:bg-accent-hover hover:shadow-md"
           >
             Upload
           </button>
@@ -822,7 +795,7 @@ export function FileBrowser({
         >
           {isDragging && (
             <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-accent/5">
-              <div className="rounded-xl border-2 border-dashed border-accent bg-bg-primary px-8 py-6 text-center">
+              <div className="rounded-2xl border-2 border-dashed border-accent bg-bg-primary px-8 py-6 text-center shadow-lg">
                 <svg
                   width="40"
                   height="40"
@@ -853,7 +826,7 @@ export function FileBrowser({
               </p>
               <button
                 onClick={() => setSearchQuery("")}
-                className="text-xs text-accent hover:underline"
+                className="text-xs font-medium text-accent hover:underline"
               >
                 Clear
               </button>
@@ -867,19 +840,37 @@ export function FileBrowser({
               <svg
                 width="64"
                 height="64"
-                viewBox="0 0 24 24"
+                viewBox="0 0 32 32"
                 fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
                 className="mb-4 text-fg-tertiary"
               >
-                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
-                <polyline points="13 2 13 9 20 9" />
+                <rect
+                  x="4"
+                  y="8"
+                  width="24"
+                  height="20"
+                  rx="4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+                <path
+                  d="M16 20V6"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M11 10l5-5 5 5"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
               <p className="text-lg font-medium text-fg-secondary">
                 No files yet
               </p>
-              <p className="mt-1 text-sm text-fg-tertiary">
+              <p className="mt-1 text-[15px] text-fg-tertiary">
                 Upload files or create a folder to get started
               </p>
             </div>
@@ -890,13 +881,13 @@ export function FileBrowser({
               </p>
               <button
                 onClick={() => setSearchQuery("")}
-                className="mt-2 text-sm text-accent hover:underline"
+                className="mt-2 text-sm font-medium text-accent hover:underline"
               >
                 Clear search
               </button>
             </div>
           ) : viewMode === "grid" ? (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {searchResults === null &&
                 folders.map((folder) => (
                   <FolderCard
@@ -1039,7 +1030,7 @@ export function FileBrowser({
       {/* Removing Background Overlay */}
       {removingBg && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="rounded-xl border border-border bg-bg-primary p-8 text-center shadow-lg">
+          <div className="rounded-2xl border border-border bg-bg-primary p-8 text-center shadow-lg">
             <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
             <p className="mt-4 text-sm font-medium text-fg-primary">
               Removing background...

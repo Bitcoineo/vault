@@ -71,20 +71,20 @@ export function ShareModal({ fileId, fileName, onClose }: ShareModalProps) {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md rounded-xl border border-border bg-bg-primary shadow-xl"
+        className="w-full max-w-md rounded-2xl border border-border bg-bg-primary shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div>
-            <h3 className="text-sm font-medium text-fg-primary">Share file</h3>
+            <h3 className="text-[15px] font-medium text-fg-primary">Share file</h3>
             <p className="mt-0.5 truncate text-xs text-fg-tertiary">
               {fileName}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="rounded p-1 text-fg-tertiary hover:bg-bg-secondary hover:text-fg-primary"
+            className="rounded-full p-1 text-fg-tertiary hover:bg-bg-secondary hover:text-fg-primary"
           >
             <svg
               width="16"
@@ -117,7 +117,7 @@ export function ShareModal({ fileId, fileName, onClose }: ShareModalProps) {
             <button
               onClick={createLink}
               disabled={creating}
-              className="flex-1 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-all hover:bg-accent-hover disabled:opacity-50"
+              className="flex-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-fg shadow-sm transition-all hover:bg-accent-hover hover:shadow-md disabled:opacity-50"
             >
               {creating ? "Creating..." : "Create link"}
             </button>
@@ -132,7 +132,7 @@ export function ShareModal({ fileId, fileName, onClose }: ShareModalProps) {
               {links.map((link) => (
                 <div
                   key={link.token}
-                  className="flex items-center gap-2 rounded-lg border border-border bg-bg-secondary px-3 py-2"
+                  className="flex items-center gap-2 rounded-xl border border-border bg-bg-secondary px-3 py-2"
                 >
                   <span className="flex-1 truncate font-mono text-xs text-fg-secondary">
                     /share/{link.token.substring(0, 12)}...
@@ -142,7 +142,7 @@ export function ShareModal({ fileId, fileName, onClose }: ShareModalProps) {
                   </span>
                   <button
                     onClick={() => copyLink(link.token)}
-                    className="shrink-0 rounded px-2 py-1 text-xs font-medium text-accent transition-colors hover:bg-accent/10"
+                    className="shrink-0 rounded-full px-2.5 py-1 text-xs font-medium text-accent transition-colors hover:bg-accent/10"
                   >
                     {copied === link.token ? "Copied!" : "Copy"}
                   </button>

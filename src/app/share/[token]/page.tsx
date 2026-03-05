@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import { VaultLogo } from "@/components/ui/VaultLogo";
 
 function formatBytes(bytes: number): string {
   if (bytes === 0) return "0 B";
@@ -46,27 +47,11 @@ export default function SharePage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-bg-primary p-4">
-      <div className="w-full max-w-md rounded-xl border border-border bg-bg-primary p-8 text-center shadow-lg">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-blue-50/50 to-bg-primary p-4 animate-page-fade-in">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-bg-primary p-8 text-center shadow-lg">
         {/* Logo */}
-        <div className="mb-6 flex items-center justify-center gap-2">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            className="text-accent"
-          >
-            <path
-              d="M12 2L3 7v10l9 5 9-5V7l-9-5z"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinejoin="round"
-            />
-            <path d="M12 22V12" stroke="currentColor" strokeWidth="2" />
-            <path d="M3 7l9 5 9-5" stroke="currentColor" strokeWidth="2" />
-          </svg>
-          <span className="text-lg font-bold text-fg-primary">Vault</span>
+        <div className="mb-6 flex items-center justify-center">
+          <VaultLogo href="/" size={28} />
         </div>
 
         {loading ? (
@@ -99,7 +84,7 @@ export default function SharePage() {
         ) : file ? (
           <div className="py-4">
             {/* File icon */}
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-bg-secondary">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-bg-secondary">
               <svg
                 width="32"
                 height="32"
@@ -114,7 +99,7 @@ export default function SharePage() {
               </svg>
             </div>
 
-            <h2 className="mb-1 text-lg font-medium text-fg-primary">
+            <h2 className="mb-1 text-lg font-semibold tracking-tight text-fg-primary">
               {file.name}
             </h2>
             <p className="mb-6 text-sm text-fg-tertiary">
@@ -123,7 +108,7 @@ export default function SharePage() {
 
             <button
               onClick={handleDownload}
-              className="w-full rounded-lg bg-accent px-6 py-3 text-sm font-medium text-accent-fg transition-all hover:bg-accent-hover"
+              className="w-full rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-fg shadow-md transition-all hover:bg-accent-hover hover:shadow-lg"
             >
               Download
             </button>

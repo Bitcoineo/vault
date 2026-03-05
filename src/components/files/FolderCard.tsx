@@ -88,10 +88,58 @@ export function FolderCard({
     </svg>
   );
 
+  const contextMenu = (
+    <div className="relative" ref={menuRef}>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowMenu(!showMenu);
+        }}
+        className="rounded-full p-1 opacity-0 transition-opacity hover:bg-bg-tertiary group-hover:opacity-100"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="text-fg-secondary"
+        >
+          <circle cx="12" cy="5" r="1.5" />
+          <circle cx="12" cy="12" r="1.5" />
+          <circle cx="12" cy="19" r="1.5" />
+        </svg>
+      </button>
+      {showMenu && (
+        <div className="absolute right-0 top-full z-10 mt-1 w-40 rounded-xl border border-border bg-bg-primary py-1 shadow-lg">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMenu(false);
+              setIsRenaming(true);
+            }}
+            className="w-full px-3 py-1.5 text-left text-sm text-fg-primary hover:bg-bg-secondary"
+          >
+            Rename
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMenu(false);
+              onDelete(id);
+            }}
+            className="w-full px-3 py-1.5 text-left text-sm text-danger hover:bg-bg-secondary"
+          >
+            Delete
+          </button>
+        </div>
+      )}
+    </div>
+  );
+
   if (viewMode === "list") {
     return (
       <div
-        className={`group flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-bg-secondary ${dragOverRing}`}
+        className={`group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2 transition-all hover:bg-bg-primary hover:shadow-sm ${dragOverRing}`}
         onClick={() => router.push(`/files?folderId=${id}`)}
         onDragOver={handleFolderDragOver}
         onDragLeave={handleFolderDragLeave}
@@ -109,66 +157,22 @@ export function FolderCard({
               if (e.key === "Escape") setIsRenaming(false);
             }}
             onClick={(e) => e.stopPropagation()}
-            className="rounded border border-accent bg-bg-primary px-2 py-0.5 text-sm text-fg-primary outline-none"
+            className="rounded-lg border border-accent bg-bg-primary px-2 py-0.5 text-sm text-fg-primary outline-none"
           />
         ) : (
-          <span className="flex-1 truncate text-sm font-medium text-fg-primary">
+          <span className="flex-1 truncate text-[15px] font-medium text-fg-primary">
             {name}
           </span>
         )}
         <span className="text-xs text-fg-tertiary">Folder</span>
-        <div className="relative" ref={menuRef}>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowMenu(!showMenu);
-            }}
-            className="rounded p-1 opacity-0 transition-opacity hover:bg-bg-tertiary group-hover:opacity-100"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="text-fg-secondary"
-            >
-              <circle cx="12" cy="5" r="1.5" />
-              <circle cx="12" cy="12" r="1.5" />
-              <circle cx="12" cy="19" r="1.5" />
-            </svg>
-          </button>
-          {showMenu && (
-            <div className="absolute right-0 top-full z-10 mt-1 w-36 rounded-lg border border-border bg-bg-primary py-1 shadow-lg">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowMenu(false);
-                  setIsRenaming(true);
-                }}
-                className="w-full px-3 py-1.5 text-left text-sm text-fg-primary hover:bg-bg-secondary"
-              >
-                Rename
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowMenu(false);
-                  onDelete(id);
-                }}
-                className="w-full px-3 py-1.5 text-left text-sm text-danger hover:bg-bg-secondary"
-              >
-                Delete
-              </button>
-            </div>
-          )}
-        </div>
+        {contextMenu}
       </div>
     );
   }
 
   return (
     <div
-      className={`group relative cursor-pointer rounded-xl border border-border bg-bg-primary p-4 transition-all hover:-translate-y-0.5 hover:shadow-md ${dragOverRing}`}
+      className={`group relative cursor-pointer rounded-2xl border border-border bg-bg-primary p-5 transition-all hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] ${dragOverRing}`}
       onClick={() => router.push(`/files?folderId=${id}`)}
       onDragOver={handleFolderDragOver}
       onDragLeave={handleFolderDragLeave}
@@ -176,51 +180,7 @@ export function FolderCard({
     >
       <div className="mb-3 flex items-center justify-between">
         {folderIcon}
-        <div className="relative" ref={menuRef}>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowMenu(!showMenu);
-            }}
-            className="rounded p-1 opacity-0 transition-opacity hover:bg-bg-tertiary group-hover:opacity-100"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="text-fg-secondary"
-            >
-              <circle cx="12" cy="5" r="1.5" />
-              <circle cx="12" cy="12" r="1.5" />
-              <circle cx="12" cy="19" r="1.5" />
-            </svg>
-          </button>
-          {showMenu && (
-            <div className="absolute right-0 top-full z-10 mt-1 w-36 rounded-lg border border-border bg-bg-primary py-1 shadow-lg">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowMenu(false);
-                  setIsRenaming(true);
-                }}
-                className="w-full px-3 py-1.5 text-left text-sm text-fg-primary hover:bg-bg-secondary"
-              >
-                Rename
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowMenu(false);
-                  onDelete(id);
-                }}
-                className="w-full px-3 py-1.5 text-left text-sm text-danger hover:bg-bg-secondary"
-              >
-                Delete
-              </button>
-            </div>
-          )}
-        </div>
+        {contextMenu}
       </div>
       {isRenaming ? (
         <input
@@ -233,10 +193,10 @@ export function FolderCard({
             if (e.key === "Escape") setIsRenaming(false);
           }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full rounded border border-accent bg-bg-primary px-2 py-0.5 text-sm text-fg-primary outline-none"
+          className="w-full rounded-lg border border-accent bg-bg-primary px-2 py-0.5 text-sm text-fg-primary outline-none"
         />
       ) : (
-        <p className="truncate text-sm font-medium text-fg-primary">{name}</p>
+        <p className="truncate text-[15px] font-medium text-fg-primary">{name}</p>
       )}
     </div>
   );

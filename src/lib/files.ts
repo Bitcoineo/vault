@@ -163,7 +163,7 @@ async function generatePdfThumbnail(
 
   const svg = `<svg width="400" height="560" xmlns="http://www.w3.org/2000/svg">
 <rect width="400" height="560" fill="white"/>
-<rect width="400" height="4" fill="#F97316"/>
+<rect width="400" height="4" fill="#2563EB"/>
 <text x="20" y="40" font-size="14" font-weight="bold" fill="#2D2D2D" font-family="sans-serif">${escapedName}</text>
 <text x="20" y="70" font-size="11" fill="#6B6B6B" font-family="sans-serif">PDF Document</text>
 ${textLinesSvg}

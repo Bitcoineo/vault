@@ -24,7 +24,7 @@ export function BulkActionBar({
   if (selectedCount === 0) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 z-40 flex w-full max-w-md -translate-x-1/2 items-center gap-3 rounded-xl border border-border bg-bg-primary px-4 py-3 shadow-lg sm:bottom-6 sm:w-auto">
+    <div className="fixed bottom-4 left-1/2 z-40 flex w-full max-w-md -translate-x-1/2 items-center gap-3 rounded-2xl border border-border bg-bg-primary px-5 py-3 shadow-lg sm:bottom-6 sm:w-auto">
       <span className="text-sm font-medium text-fg-primary">
         {selectedCount} selected
       </span>
@@ -36,12 +36,12 @@ export function BulkActionBar({
         <div className="relative">
           <button
             onClick={() => setShowMoveMenu(!showMoveMenu)}
-            className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-primary transition-colors hover:bg-bg-secondary"
+            className="rounded-full border border-border px-3 py-1.5 text-sm text-fg-primary transition-all hover:bg-bg-secondary hover:shadow-sm"
           >
             Move to...
           </button>
           {showMoveMenu && (
-            <div className="absolute bottom-full left-0 z-10 mb-2 w-48 rounded-lg border border-border bg-bg-primary py-1 shadow-lg">
+            <div className="absolute bottom-full left-0 z-10 mb-2 w-48 rounded-xl border border-border bg-bg-primary py-1 shadow-lg">
               <button
                 onClick={() => {
                   onMove(null);
@@ -72,7 +72,7 @@ export function BulkActionBar({
       {onZip && selectedCount > 1 && (
         <button
           onClick={onZip}
-          className="rounded-lg border border-border px-3 py-1.5 text-sm text-fg-primary transition-colors hover:bg-bg-secondary"
+          className="rounded-full border border-border px-3 py-1.5 text-sm text-fg-primary transition-all hover:bg-bg-secondary hover:shadow-sm"
         >
           Zip
         </button>
@@ -81,7 +81,7 @@ export function BulkActionBar({
       {/* Delete */}
       <button
         onClick={onDelete}
-        className="rounded-lg border border-danger/30 px-3 py-1.5 text-sm font-medium text-danger transition-colors hover:bg-danger/10"
+        className="rounded-full border border-danger/30 px-3 py-1.5 text-sm font-medium text-danger transition-all hover:bg-danger/10"
       >
         Delete
       </button>
@@ -89,7 +89,7 @@ export function BulkActionBar({
       {/* Clear */}
       <button
         onClick={onClear}
-        className="rounded p-1 text-fg-tertiary transition-colors hover:text-fg-primary"
+        className="rounded-full p-1 text-fg-tertiary transition-colors hover:text-fg-primary"
       >
         <svg
           width="16"

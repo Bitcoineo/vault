@@ -94,7 +94,7 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
   const isPdf = file.mimeType === "application/pdf";
 
   return (
-    <div className="animate-slide-in-right fixed inset-0 z-50 flex flex-col bg-bg-primary md:relative md:inset-auto md:z-auto md:w-96 md:border-l md:border-border">
+    <div className="animate-slide-in-right fixed inset-0 z-50 flex flex-col bg-bg-primary md:relative md:inset-auto md:z-auto md:w-96 md:rounded-l-2xl md:border-l md:border-border md:shadow-lg">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         {isRenaming ? (
@@ -107,11 +107,11 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
               if (e.key === "Enter") handleRename();
               if (e.key === "Escape") setIsRenaming(false);
             }}
-            className="mr-2 flex-1 rounded border border-accent bg-bg-primary px-2 py-0.5 text-sm text-fg-primary outline-none"
+            className="mr-2 flex-1 rounded-lg border border-accent bg-bg-primary px-2 py-0.5 text-sm text-fg-primary outline-none"
           />
         ) : (
           <h3
-            className="cursor-pointer truncate text-sm font-medium text-fg-primary hover:text-accent"
+            className="cursor-pointer truncate text-[15px] font-medium text-fg-primary hover:text-accent"
             onClick={() => {
               setNewName(file.name);
               setIsRenaming(true);
@@ -123,7 +123,7 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
         )}
         <button
           onClick={onClose}
-          className="rounded p-1 text-fg-tertiary transition-colors hover:bg-bg-secondary hover:text-fg-primary"
+          className="rounded-full p-1 text-fg-tertiary transition-colors hover:bg-bg-secondary hover:text-fg-primary"
         >
           <svg
             width="18"
@@ -142,7 +142,7 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
       {/* Preview */}
       <div className="flex-1 overflow-y-auto p-4">
         {isImage && previewUrl ? (
-          <div className="mb-4 overflow-hidden rounded-lg bg-bg-secondary">
+          <div className="mb-4 overflow-hidden rounded-xl bg-bg-secondary">
             <img
               src={previewUrl}
               alt={file.name}
@@ -150,7 +150,7 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
             />
           </div>
         ) : (
-          <div className="mb-4 flex h-40 items-center justify-center rounded-lg bg-bg-secondary">
+          <div className="mb-4 flex h-40 items-center justify-center rounded-xl bg-bg-secondary">
             <FileIcon mimeType={file.mimeType} size={64} />
           </div>
         )}
@@ -159,23 +159,23 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
         <div className="space-y-3">
           <div>
             <span className="text-xs text-fg-tertiary">Type</span>
-            <p className="text-sm text-fg-primary">{file.mimeType}</p>
+            <p className="text-[15px] text-fg-primary">{file.mimeType}</p>
           </div>
           <div>
             <span className="text-xs text-fg-tertiary">Size</span>
-            <p className="text-sm text-fg-primary">{formatBytes(file.size)}</p>
+            <p className="text-[15px] text-fg-primary">{formatBytes(file.size)}</p>
           </div>
           {isImage && file.width && file.height && (
             <div>
               <span className="text-xs text-fg-tertiary">Dimensions</span>
-              <p className="text-sm text-fg-primary">
+              <p className="text-[15px] text-fg-primary">
                 {file.width} x {file.height}
               </p>
             </div>
           )}
           <div>
             <span className="text-xs text-fg-tertiary">Uploaded</span>
-            <p className="text-sm text-fg-primary">
+            <p className="text-[15px] text-fg-primary">
               {new Date(file.createdAt).toLocaleDateString("en-US", {
                 month: "long",
                 day: "numeric",
@@ -189,7 +189,7 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
         {isPdf && file.extractedText && (
           <div className="mt-4">
             <span className="text-xs text-fg-tertiary">Extracted Text</span>
-            <div className="mt-1 max-h-40 overflow-y-auto rounded-lg bg-bg-secondary p-3 text-xs leading-relaxed text-fg-secondary">
+            <div className="mt-1 max-h-40 overflow-y-auto rounded-xl bg-bg-secondary p-3 text-xs leading-relaxed text-fg-secondary">
               {file.extractedText.substring(0, 500)}
               {file.extractedText.length > 500 && "..."}
             </div>
@@ -202,14 +202,14 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
         <button
           onClick={handleDownload}
           disabled={downloading || file.status !== "ready"}
-          className="flex-1 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-fg transition-all hover:bg-accent-hover disabled:opacity-50"
+          className="flex-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-fg shadow-sm transition-all hover:bg-accent-hover hover:shadow-md disabled:opacity-50"
         >
           {downloading ? "..." : "Download"}
         </button>
         {isImage && onEdit && (
           <button
             onClick={() => onEdit(file.id)}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-fg-primary transition-all hover:bg-bg-secondary"
+            className="rounded-full border border-border px-4 py-2 text-sm font-medium text-fg-primary transition-all hover:bg-bg-secondary hover:shadow-sm"
           >
             Edit
           </button>
@@ -217,7 +217,7 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
         {onRemoveBg && /^image\/(jpeg|png|webp)$/.test(file.mimeType) && (
           <button
             onClick={() => onRemoveBg(file.id)}
-            className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-fg-primary transition-all hover:bg-bg-secondary"
+            className="rounded-full border border-border px-4 py-2 text-sm font-medium text-fg-primary transition-all hover:bg-bg-secondary hover:shadow-sm"
             title="Remove background"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -228,7 +228,7 @@ export function FilePreview({ file, onClose, onDelete, onRename, onEdit, onRemov
         )}
         <button
           onClick={() => onDelete(file.id)}
-          className="rounded-lg border border-danger/30 px-4 py-2 text-sm font-medium text-danger transition-all hover:bg-danger/10"
+          className="rounded-full border border-danger/30 px-4 py-2 text-sm font-medium text-danger transition-all hover:bg-danger/10"
         >
           Delete
         </button>

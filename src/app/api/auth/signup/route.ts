@@ -6,14 +6,14 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 
 const AVATAR_COLORS = [
-  "#F97316",
-  "#EF4444",
-  "#8B5CF6",
-  "#06B6D4",
-  "#10B981",
-  "#EC4899",
-  "#F59E0B",
-  "#6366F1",
+  "#2563EB",
+  "#7C3AED",
+  "#0891B2",
+  "#059669",
+  "#DC2626",
+  "#DB2777",
+  "#D97706",
+  "#4F46E5",
 ];
 
 export async function POST(req: Request) {
