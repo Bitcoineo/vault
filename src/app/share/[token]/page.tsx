@@ -51,7 +51,7 @@ export default function SharePage() {
       <div className="w-full max-w-md rounded-2xl border border-border bg-bg-primary p-8 text-center shadow-lg">
         {/* Logo */}
         <div className="mb-6 flex items-center justify-center">
-          <VaultLogo href="/" size={28} />
+          <VaultLogo href="/" size={32} />
         </div>
 
         {loading ? (

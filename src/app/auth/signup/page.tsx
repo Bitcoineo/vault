@@ -58,7 +58,7 @@ export default function SignUpPage() {
         <div className="rounded-2xl border border-border bg-bg-primary p-8 shadow-lg">
           <div className="mb-8 flex flex-col items-center text-center">
             <div className="mb-4">
-              <VaultLogo size={40} href={null as unknown as string} showText={false} />
+              <VaultLogo size={48} href={null as unknown as string} showText={false} />
             </div>
             <h1 className="text-xl font-semibold tracking-tight text-fg-primary">
               Create your account

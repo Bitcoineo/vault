@@ -52,12 +52,24 @@ export function LandingContent() {
           </div>
         </div>
 
-        {/* Bottom gradient fade */}
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0D0D14] to-transparent" />
       </section>
 
+      {/* Divider: hero → features */}
+      <div className="my-8 flex justify-center">
+        <div className="h-px w-[60%] bg-gradient-to-r from-transparent via-[#2A2F3A] to-transparent" />
+      </div>
+
       {/* FEATURES */}
-      <section id="features" className="bg-[#0D0D14] px-6 pb-16 pt-10">
+      <section id="features" className="relative px-6 pb-16 pt-10">
+        {/* Subtle dot grid texture */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle, #3B82F6 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+          }}
+        />
         <div className="mx-auto max-w-5xl">
           <ScrollReveal>
             <h2 className="mb-12 text-center font-[family-name:var(--font-outfit)] text-3xl font-bold tracking-tight text-[#E8ECF1] sm:text-4xl">
@@ -161,24 +173,19 @@ export function LandingContent() {
         </div>
       </section>
 
+      {/* Divider: features → CTA */}
+      <div className="my-8 flex justify-center">
+        <div className="h-px w-[60%] bg-gradient-to-r from-transparent via-[#2A2F3A] to-transparent" />
+      </div>
+
       {/* BOTTOM CTA */}
-      <section className="relative overflow-hidden bg-[#0A0A0F] px-6 py-20 text-center">
+      <section className="relative overflow-hidden px-6 py-20 text-center">
         {/* Radial blue glow */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
             background:
               "radial-gradient(ellipse at center, rgba(59,130,246,0.12) 0%, transparent 70%)",
-          }}
-        />
-
-        {/* Dot grid pattern */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle, #3B82F6 1px, transparent 1px)",
-            backgroundSize: "24px 24px",
           }}
         />
 
@@ -200,7 +207,7 @@ export function LandingContent() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-[#0A0A0F] border-t border-[#1A1F2E] px-6 py-6">
+      <footer className="border-t border-[#1A1F2E] px-6 py-6">
         <div className="flex items-center justify-center gap-4 font-[family-name:var(--font-dm-sans)] text-sm text-[#4A5568]">
           <span>Built by Bitcoineo</span>
           <a

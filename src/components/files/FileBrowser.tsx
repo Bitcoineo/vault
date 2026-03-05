@@ -580,7 +580,7 @@ export function FileBrowser({
     <div className="flex h-screen flex-col bg-bg-secondary animate-page-fade-in">
       {/* Top Bar — white/surface, logo left, breadcrumb center, avatar right */}
       <header className="flex items-center justify-between border-b border-border bg-bg-primary px-4 py-3 sm:px-6">
-        <VaultLogo href="/files" size={24} textClass="text-base font-semibold tracking-tight text-fg-primary" />
+        <VaultLogo href="/files" size={28} textClass="text-base font-semibold tracking-tight text-fg-primary" />
 
         <div className="hidden sm:flex">
           <Breadcrumbs path={folderPath} currentFolderId={currentFolderId} />

@@ -21,10 +21,10 @@ export function LandingNav() {
     >
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
         <VaultLogo
-          size={24}
+          size={32}
           href="/"
           showText
-          textClass="font-[family-name:var(--font-outfit)] text-lg font-semibold tracking-tight text-white"
+          textClass="font-[family-name:var(--font-outfit)] text-xl font-bold tracking-tight text-white"
         />
 
         <div className="flex items-center gap-4">
